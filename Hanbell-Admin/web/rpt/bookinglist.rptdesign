@@ -1,0 +1,789 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT 设计器 V4.5.0.v201506092134 构建 &lt;@建立@></property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">fixed layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">72</property>
+    <parameters>
+        <scalar-parameter name="JNDIName" id="455">
+            <property name="hidden">true</property>
+            <text-property name="promptText">JNDI</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="filterFields" id="1043">
+            <property name="hidden">true</property>
+            <text-property name="promptText">条件字段</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="sortFields" id="570">
+            <property name="hidden">true</property>
+            <text-property name="promptText">排序字段</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <script-data-source name="scriptDS" id="225"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="3dataDetail" id="226">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">formid</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">formdate</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">formtype</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">name</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">gender</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">mobile</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">company</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">title</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">room</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">key1</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">value1</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">key2</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">value2</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">key3</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">value3</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">key4</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">value4</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">key5</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">value5</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
+                    <property name="name">key6</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">21</property>
+                    <property name="name">value6</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">22</property>
+                    <property name="name">key7</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">23</property>
+                    <property name="name">value7</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">24</property>
+                    <property name="name">key8</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">25</property>
+                    <property name="name">value8</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">formid</property>
+                </structure>
+                <structure>
+                    <property name="columnName">formdate</property>
+                </structure>
+                <structure>
+                    <property name="columnName">formtype</property>
+                </structure>
+                <structure>
+                    <property name="columnName">name</property>
+                </structure>
+                <structure>
+                    <property name="columnName">gender</property>
+                </structure>
+                <structure>
+                    <property name="columnName">mobile</property>
+                </structure>
+                <structure>
+                    <property name="columnName">company</property>
+                </structure>
+                <structure>
+                    <property name="columnName">title</property>
+                </structure>
+                <structure>
+                    <property name="columnName">room</property>
+                </structure>
+                <structure>
+                    <property name="columnName">key1</property>
+                </structure>
+                <structure>
+                    <property name="columnName">value1</property>
+                </structure>
+                <structure>
+                    <property name="columnName">key2</property>
+                </structure>
+                <structure>
+                    <property name="columnName">value2</property>
+                </structure>
+                <structure>
+                    <property name="columnName">key3</property>
+                </structure>
+                <structure>
+                    <property name="columnName">value3</property>
+                </structure>
+                <structure>
+                    <property name="columnName">key4</property>
+                </structure>
+                <structure>
+                    <property name="columnName">value4</property>
+                </structure>
+                <structure>
+                    <property name="columnName">key5</property>
+                </structure>
+                <structure>
+                    <property name="columnName">value5</property>
+                </structure>
+                <structure>
+                    <property name="columnName">key6</property>
+                </structure>
+                <structure>
+                    <property name="columnName">value6</property>
+                </structure>
+                <structure>
+                    <property name="columnName">key7</property>
+                </structure>
+                <structure>
+                    <property name="columnName">value7</property>
+                </structure>
+                <structure>
+                    <property name="columnName">key8</property>
+                </structure>
+                <structure>
+                    <property name="columnName">value8</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">formid</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">formdate</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">formtype</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">gender</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">mobile</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">company</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">title</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">room</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">key1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">value1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">key2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">value2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">key3</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">value3</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">key4</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">value4</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">key5</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">value5</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">key6</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
+                        <property name="name">value6</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">key7</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">value7</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">key8</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
+                        <property name="name">value8</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">scriptDS</property>
+            <method name="open"><![CDATA[
+importPackage(Packages.cn.hanbell.eap.rpt);
+
+ejbClient = new BookingListReport();
+ejbClient.setEJB(params["JNDIName"]);
+
+detail = ejbClient.findByFilters(params["filterFields"],params["sortFields"],true);
+
+currentRow = 0;]]></method>
+            <method name="fetch"><![CDATA[if(detail==undefined || detail==null){
+	return false;
+}
+
+if(currentRow < detail.size()){
+	dataSetRow["formid"] = detail.get(currentRow).getFormid();	
+	dataSetRow["formtype"] = detail.get(currentRow).getBookingKind().getName();	
+	dataSetRow["name"] = detail.get(currentRow).getName();
+	dataSetRow["gender"] = detail.get(currentRow).getGender();
+	dataSetRow["mobile"] = detail.get(currentRow).getMobile();
+	dataSetRow["company"] = detail.get(currentRow).getCompany();
+	dataSetRow["title"] = detail.get(currentRow).getTitle();
+	dataSetRow["room"] = detail.get(currentRow).getRoom();
+	dataSetRow["key1"] = detail.get(currentRow).getKey1();
+	dataSetRow["value1"] = detail.get(currentRow).getValue1();
+	dataSetRow["key2"] = detail.get(currentRow).getKey2();
+	dataSetRow["value2"] = detail.get(currentRow).getValue2();
+	dataSetRow["key3"] = detail.get(currentRow).getKey3();
+	dataSetRow["value3"] = detail.get(currentRow).getValue3();
+	dataSetRow["key4"] = detail.get(currentRow).getKey4();
+	dataSetRow["value4"] = detail.get(currentRow).getValue4();			
+	dataSetRow["key5"] = detail.get(currentRow).getKey5();
+	dataSetRow["value5"] = detail.get(currentRow).getValue5();	
+	dataSetRow["key6"] = detail.get(currentRow).getKey6();
+	dataSetRow["value6"] = detail.get(currentRow).getValue6();			
+	currentRow++;
+	return true;
+}
+
+return false;	
+]]></method>
+            <method name="close"><![CDATA[ejbClient = null;]]></method>
+        </script-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a3</property>
+            <property name="orientation">landscape</property>
+            <property name="height">148mm</property>
+            <property name="width">210mm</property>
+            <property name="headerHeight">0in</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="1010">
+            <property name="fontSize">16pt</property>
+            <property name="marginTop">3pt</property>
+            <property name="paddingRight">20pt</property>
+            <property name="textAlign">center</property>
+            <text-property name="text">预约清单</text-property>
+        </label>
+        <table id="943">
+            <property name="dataSet">3dataDetail</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">formid</property>
+                    <text-property name="displayName">formid</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["formid"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">formdate</property>
+                    <text-property name="displayName">formdate</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["formdate"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">formtype</property>
+                    <text-property name="displayName">formtype</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["formtype"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">name</property>
+                    <text-property name="displayName">name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">gender</property>
+                    <text-property name="displayName">gender</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["gender"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">mobile</property>
+                    <text-property name="displayName">mobile</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["mobile"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">company</property>
+                    <text-property name="displayName">company</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["company"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">title</property>
+                    <text-property name="displayName">title</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["title"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">key1</property>
+                    <text-property name="displayName">key1</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["key1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">value1</property>
+                    <text-property name="displayName">value1</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["value1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">key2</property>
+                    <text-property name="displayName">key2</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["key2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">value2</property>
+                    <text-property name="displayName">value2</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["value2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">key3</property>
+                    <text-property name="displayName">key3</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["key3"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">key4</property>
+                    <text-property name="displayName">key4</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["key4"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">room</property>
+                    <text-property name="displayName">room</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["room"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">value3</property>
+                    <text-property name="displayName">value3</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["value3"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">value4</property>
+                    <text-property name="displayName">value4</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["value4"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">value5</property>
+                    <text-property name="displayName">value5</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["value5"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">value6</property>
+                    <text-property name="displayName">value6</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["value6"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">key5</property>
+                    <text-property name="displayName">key5</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["key5"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">key6</property>
+                    <text-property name="displayName">key6</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["key6"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <column id="965">
+                <property name="width">1.2in</property>
+            </column>
+            <column id="1014">
+                <property name="width">0.8in</property>
+            </column>
+            <column id="1017">
+                <property name="width">1.2in</property>
+            </column>
+            <column id="1020">
+                <property name="width">2.5in</property>
+            </column>
+            <column id="1036">
+                <property name="width">1in</property>
+            </column>
+            <column id="1023">
+                <property name="width">0.5in</property>
+            </column>
+            <column id="967"/>
+            <column id="968"/>
+            <column id="1046"/>
+            <column id="1049"/>
+            <column id="1061"/>
+            <column id="1064"/>
+            <column id="969"/>
+            <column id="1054">
+                <property name="width">0.8in</property>
+            </column>
+            <header>
+                <row id="944">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <property name="height">0.2708333333333333in</property>
+                    <cell id="945">
+                        <label id="999">
+                            <text-property name="text">预约单号</text-property>
+                        </label>
+                    </cell>
+                    <cell id="1012">
+                        <label id="1026">
+                            <text-property name="text">姓名</text-property>
+                        </label>
+                    </cell>
+                    <cell id="1015">
+                        <label id="1028">
+                            <text-property name="text">手机</text-property>
+                        </label>
+                    </cell>
+                    <cell id="1018">
+                        <label id="1030">
+                            <text-property name="text">公司名称</text-property>
+                        </label>
+                    </cell>
+                    <cell id="1034">
+                        <label id="1037">
+                            <text-property name="text">职务</text-property>
+                        </label>
+                    </cell>
+                    <cell id="1021">
+                        <label id="1032">
+                            <text-property name="text">性别</text-property>
+                        </label>
+                    </cell>
+                    <cell id="947">
+                        <data id="1039">
+                            <property name="resultSetColumn">key1</property>
+                        </data>
+                    </cell>
+                    <cell id="948">
+                        <data id="1040">
+                            <property name="resultSetColumn">key2</property>
+                        </data>
+                    </cell>
+                    <cell id="1044">
+                        <data id="1050">
+                            <property name="resultSetColumn">key3</property>
+                        </data>
+                    </cell>
+                    <cell id="1047">
+                        <data id="1051">
+                            <property name="resultSetColumn">key4</property>
+                        </data>
+                    </cell>
+                    <cell id="1059">
+                        <data id="1069">
+                            <property name="resultSetColumn">key5</property>
+                        </data>
+                    </cell>
+                    <cell id="1062">
+                        <data id="1070">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">key6</property>
+                        </data>
+                    </cell>
+                    <cell id="949">
+                        <label id="1024">
+                            <text-property name="text">预约内容</text-property>
+                        </label>
+                    </cell>
+                    <cell id="1052">
+                        <label id="1055">
+                            <text-property name="text">会议室</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="951">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">thin</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">thin</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">thin</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <cell id="952">
+                        <data id="1011">
+                            <property name="resultSetColumn">formid</property>
+                        </data>
+                    </cell>
+                    <cell id="1013">
+                        <data id="1027">
+                            <property name="resultSetColumn">name</property>
+                        </data>
+                    </cell>
+                    <cell id="1016">
+                        <data id="1029">
+                            <property name="resultSetColumn">mobile</property>
+                        </data>
+                    </cell>
+                    <cell id="1019">
+                        <data id="1031">
+                            <property name="resultSetColumn">company</property>
+                        </data>
+                    </cell>
+                    <cell id="1035">
+                        <data id="1038">
+                            <property name="resultSetColumn">title</property>
+                        </data>
+                    </cell>
+                    <cell id="1022">
+                        <data id="1033">
+                            <property name="resultSetColumn">gender</property>
+                        </data>
+                    </cell>
+                    <cell id="954">
+                        <data id="1041">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">value1</property>
+                        </data>
+                    </cell>
+                    <cell id="955">
+                        <data id="1042">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">value2</property>
+                        </data>
+                    </cell>
+                    <cell id="1045">
+                        <data id="1057">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">value3</property>
+                        </data>
+                    </cell>
+                    <cell id="1048">
+                        <data id="1058">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">value4</property>
+                        </data>
+                    </cell>
+                    <cell id="1060">
+                        <data id="1066">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">value5</property>
+                        </data>
+                    </cell>
+                    <cell id="1063">
+                        <data id="1068">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">value6</property>
+                        </data>
+                    </cell>
+                    <cell id="956">
+                        <data id="1025">
+                            <property name="resultSetColumn">formtype</property>
+                        </data>
+                    </cell>
+                    <cell id="1053">
+                        <data id="1056">
+                            <property name="resultSetColumn">room</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h:form id="formOne">
+            <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:button id="btnReturn" value="返回" outcome="department" icon="ui-icon-restore"/>
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnSave" value="保存" actionListener="#{departmentManagedBean.persist()}" icon="ui-icon-save"
+                                     process="@this,plgHead" update="formOne"/>
+                </f:facet>
+            </p:toolbar>
+            <p:panelGrid id="plgHead"  styleClass="plgHead Wid100">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column colspan="4">部门资料－新增</p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column styleClass="Wid20"><p:outputLabel value="部门编号" for="deptno" /></p:column>
+                    <p:column styleClass="Wid30">
+                        <p:inputText id="deptno" value="#{departmentManagedBean.newEntity.deptno}" title="Deptno"
+                                     required="true" requiredMessage="请输入部门编号"/>
+                    </p:column>
+                    <p:column styleClass="Wid20"><p:outputLabel value="部门名称" for="dept" /></p:column>
+                    <p:column styleClass="Wid30">
+                        <p:inputText id="dept" value="#{departmentManagedBean.newEntity.dept}" title="Dept"
+                                     required="true" requiredMessage="请输入部门名称"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="部门主管" for="leader" /></p:column>
+                    <p:column>
+                        <p:inputText id="leader" value="#{departmentManagedBean.newEntity.leader}" title="Leader" />
+                    </p:column>
+                    <p:column><p:outputLabel value="上级部门" for="parentDept" /></p:column>
+                    <p:column>
+                        <p:inputText id="parentDept" value="#{departmentManagedBean.newEntity.parentDept.dept}" title="parentDept" styleClass="inputWithButton"  readonly="true" />
+                        <p:commandButton id="btnDeparmentSelect" actionListener="#{departmentManagedBean.openDialog('departmentSelect')}" icon="ui-icon-extlink"
+                                         process="@this" >
+                            <p:ajax event="dialogReturn" listener="#{departmentManagedBean.handleDialogReturnWhenNew}"
+                                    update="parentDept" />
+                        </p:commandButton>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="备注" for="remark" /></p:column>
+                    <p:column colspan="4">
+                        <p:inputText id="remark" value="#{departmentManagedBean.newEntity.remark}" title="Remark" />
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

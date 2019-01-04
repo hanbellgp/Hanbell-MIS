@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <h:form id="formOne">
+            <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:button id="btnReturn" value="返回" outcome="sysprg" icon="ui-icon-restore"/>
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnSave" value="保存"  icon="ui-icon-save" action="#{systemProgramManagedBean.update()}" update="plgHead"/>
+                </f:facet>
+            </p:toolbar>
+            <p:panelGrid id="plgHead" columns="4" columnClasses="Widw20,Wid30,Wid20,Wid30" styleClass="plgHead Wid100">
+                <f:facet name="header">
+                    预约安排－修改
+                </f:facet>
+                <p:outputLabel value="系统" for="sysname" />
+                <p:selectOneMenu id="sysname" value="#{systemProgramManagedBean.currentEntity.sysname}" title="sysname" required="true" requiredMessage="系统不能为空.">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{systemProgramManagedBean.systemNameList}" var="s" itemLabel="#{s.name}" itemValue="#{s.name}"/>
+                    <p:ajax event="itemSelect" listener="#{systemProgramManagedBean.handleSystemNameChangedWhenEdit}" update="moduleid" />
+                </p:selectOneMenu>
+                <p:outputLabel value="模块" for="moduleid" />
+                <p:selectOneMenu id="moduleid" value="#{systemProgramManagedBean.currentEntity.systemModule}" title="Moduleid"
+                                 required="true" requiredMessage="所属模块不可空白" converter="systemModuleConverter">
+                    <!-- TODO: update below reference to list of available items-->
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{systemProgramManagedBean.systemModuleList}" var="m" itemLabel="#{m.name}" itemValue="#{m}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="名称" for="name" />
+                <p:inputText id="name" value="#{systemProgramManagedBean.currentEntity.name}" title="Name"
+                             required="true" requiredMessage="名称不可空白"/>
+                <p:outputLabel value="新增" for="doadd" />
+                <p:inputSwitch id="doadd" value="#{systemProgramManagedBean.currentEntity.doadd}" required="true"/>
+                <p:outputLabel value="路径" for="api" />
+                <p:inputText id="api" value="#{systemProgramManagedBean.currentEntity.api}" title="Api"
+                             required="true" requiredMessage="访问路径不可空白"/>
+                <p:outputLabel value="修改" for="doedit" />
+                <p:inputSwitch id="doedit" value="#{systemProgramManagedBean.currentEntity.doedit}" required="true" />
+                <p:outputLabel value="删除" for="dodel" />
+                <p:inputSwitch id="dodel" value="#{systemProgramManagedBean.currentEntity.dodel}" required="true"/>
+                <p:outputLabel value="排序" for="sortid" />
+                <p:inputText id="sortid" value="#{systemProgramManagedBean.currentEntity.sortid}" title="Sortid" />
+                <p:outputLabel value="审核" for="docfm" />
+                <p:inputSwitch id="docfm" value="#{systemProgramManagedBean.currentEntity.docfm}" required="true"/>
+                <p:outputLabel value="还原" for="douncfm" />
+                <p:inputSwitch id="douncfm" value="#{systemProgramManagedBean.currentEntity.douncfm}" required="true"/>
+                <p:outputLabel value="特权" for="dopriv" />
+                <p:inputSwitch id="dopriv" value="#{systemProgramManagedBean.currentEntity.dopriv}" required="true"/>
+                <p:outputLabel value="编号前缀" for="nolead" rendered="#{systemProgramManagedBean.currentEntity.noauto}" />
+                <p:inputText id="nolead" value="#{systemProgramManagedBean.currentEntity.nolead}" title="nolead"
+                             rendered="#{systemProgramManagedBean.currentEntity.noauto}" required="true" requiredMessage="编号前缀不可空白" validatorMessage="编号前缀最少一位最多四位">
+                    <f:validateLength minimum="1" maximum="4"/>
+                </p:inputText>
+                <p:outputLabel value="自动编号" for="noauto" />
+                <p:inputSwitch id="noauto" value="#{systemProgramManagedBean.currentEntity.noauto}"
+                               required="true">
+                    <p:ajax process="@this" update="plgHead"/>
+                </p:inputSwitch>
+                <p:outputLabel value="编号格式" for="noformat" rendered="#{systemProgramManagedBean.currentEntity.noauto}" />
+                <p:inputText id="noformat" value="#{systemProgramManagedBean.currentEntity.noformat}"
+                             rendered="#{systemProgramManagedBean.currentEntity.noauto}"/>
+                <p:outputLabel value="打印" for="doprt" />
+                <p:inputSwitch id="doprt" value="#{systemProgramManagedBean.currentEntity.doprt}" required="true"/>
+                <p:outputLabel value="流号长度" for="noseqlen" rendered="#{systemProgramManagedBean.currentEntity.noauto}" />
+                <p:spinner id="noseqlen" value="#{systemProgramManagedBean.currentEntity.noseqlen}"
+                           rendered="#{systemProgramManagedBean.currentEntity.noauto}" required="true" requiredMessage="流号长度不可空白"/>
+                <p:outputLabel value="更改编号" for="nochange" />
+                <p:inputSwitch id="nochange" value="#{systemProgramManagedBean.currentEntity.nochange}" required="nochange"/>
+                <p:outputLabel value="报表类" for="rptclazz" />
+                <p:inputText id="rptclazz" value="#{systemProgramManagedBean.currentEntity.rptclazz}" title="rptclazz"/>
+                <p:outputLabel value="报表文件" for="rptdesign" />
+                <p:inputText id="rptdesign" value="#{systemProgramManagedBean.currentEntity.rptdesign}" title="rptdesign"/>
+                <p:outputLabel value="报表JNDI" for="rptjndi" />
+                <p:inputText id="rptjndi" value="#{systemProgramManagedBean.currentEntity.rptjndi}" title="rptjndi"/>
+                <p:outputLabel value="报表格式" for="rptformat" />
+                <p:selectOneMenu id="rptformat" value="#{systemProgramManagedBean.currentEntity.rptformat}" title="rptformat">
+                    <f:selectItem itemLabel="PDF" itemValue="pdf" />
+                    <f:selectItem itemLabel="HTML" itemValue="html" />
+                    <f:selectItem itemLabel="WORD" itemValue="word" />
+                    <f:selectItem itemLabel="EXCEL" itemValue="xls" />
+                </p:selectOneMenu>
+                <p:outputLabel value="备注" for="descript" />
+                <p:inputText id="descript" value="#{systemProgramManagedBean.currentEntity.descript}" title="Descript" />
+            </p:panelGrid>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

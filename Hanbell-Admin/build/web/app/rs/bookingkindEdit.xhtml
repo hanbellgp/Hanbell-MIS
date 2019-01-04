@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="formOne">
+            <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:button id="btnReturn" value="返回" outcome="bookingkind" icon="ui-icon-restore"/>
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnSave" value="保存" action="#{bookingKindManagedBean.update()}" icon="ui-icon-save"
+                                     process="@this,plgHead" update="plgHead"/>
+                </f:facet>
+            </p:toolbar>
+            <p:panelGrid id="plgHead" columns="4" columnClasses="Wid20,Wid30,Wid20,Wid30" styleClass="plgHead Wid100">
+                <f:facet name="header">
+                    预约安排－修改
+                </f:facet>
+                <p:outputLabel value="预约编号" for="kind" />
+                <p:inputText id="kind" value="#{bookingKindManagedBean.currentEntity.kind}" title="kind"
+                             required="true" requiredMessage="请输入预约编号" readonly="#{bookingKindManagedBean.currentPrgGrant.sysprg.noauto == !bookingKindManagedBean.currentPrgGrant.sysprg.nochange}"/>
+                <p:outputLabel value="预约名称" for="name" />
+                <p:inputText id="name" value="#{bookingKindManagedBean.currentEntity.name}" title="name"
+                             required="true" requiredMessage="请输入预约名称" />
+                <p:outputLabel value="开始日期" for="startDate" />
+                <p:calendar id="startDate" value="#{bookingKindManagedBean.currentEntity.startDate}" title="startDate"
+                            pattern="yyyy/MM/dd" required="true" requiredMessage="请输入开始日期">
+                    <f:convertDateTime pattern="yyyy/MM/dd" />
+                </p:calendar>
+                <p:outputLabel value="开始时间" for="startTime" />
+                <p:inputText id="startTime" value="#{bookingKindManagedBean.currentEntity.startTime}" title="startTime"
+                             placeholder="00:00" required="true" requiredMessage="请输入开始时间">
+                    <f:convertDateTime pattern="HH:mm" />
+                </p:inputText>
+                <p:outputLabel value="结束日期" for="endDate" />
+                <p:calendar id="endDate" value="#{bookingKindManagedBean.currentEntity.endDate}" title="endDate"
+                            pattern="yyyy/MM/dd" required="true" requiredMessage="请输入结束日期">
+                    <f:convertDateTime pattern="yyyy/MM/dd" />
+                </p:calendar>
+                <p:outputLabel value="结束时间" for="endTime" />
+                <p:inputText id="endTime" value="#{bookingKindManagedBean.currentEntity.endTime}" title="endTime"
+                             placeholder="00:00" required="true" requiredMessage="请输入结束时间">
+                    <f:convertDateTime pattern="HH:mm" />
+                </p:inputText>
+                <p:outputLabel value="短信通知" for="msgNotify" />
+                <p:inputSwitch id="msgNotify" value="#{bookingKindManagedBean.currentEntity.msgNotify}"
+                               required="true" requiredMessage="请输入短信通知"/>
+                <p:outputLabel value="通知次数" for="msgNotified"/>
+                <p:spinner id="msgNotified" value="#{bookingKindManagedBean.currentEntity.msgNotified}"
+                           placeholder="分钟" required="true" requiredMessage="请输入通知次数"/>
+                <p:outputLabel value="地点" for="address" />
+                <p:inputText id="address" value="#{bookingKindManagedBean.currentEntity.address}" title="address"/>
+                <p:outputLabel value="联系人" for="contacter" />
+                <p:inputText id="contacter" value="#{bookingKindManagedBean.currentEntity.contacter}" title="contacter"/>
+                <p:outputLabel value="属性1" for="key1" />
+                <p:inputText id="key1" value="#{bookingKindManagedBean.currentEntity.key1}" title="key1" />
+                <p:outputLabel value="属性2" for="key2" />
+                <p:inputText id="key2" value="#{bookingKindManagedBean.currentEntity.key2}" title="key2" />
+                <p:outputLabel value="属性3" for="key3" />
+                <p:inputText id="key3" value="#{bookingKindManagedBean.currentEntity.key3}" title="key3" />
+                <p:outputLabel value="属性4" for="key4" />
+                <p:inputText id="key4" value="#{bookingKindManagedBean.currentEntity.key4}" title="key4" />
+                <p:outputLabel value="属性5" for="key5" />
+                <p:inputText id="key5" value="#{bookingKindManagedBean.currentEntity.key5}" title="key5" />
+                <p:outputLabel value="属性6" for="key6" />
+                <p:inputText id="key6" value="#{bookingKindManagedBean.currentEntity.key6}" title="key6" />
+                <p:outputLabel value="属性7" for="key7" />
+                <p:inputText id="key7" value="#{bookingKindManagedBean.currentEntity.key7}" title="key7" />
+                <p:outputLabel value="属性8" for="key8" />
+                <p:inputText id="key8" value="#{bookingKindManagedBean.currentEntity.key8}" title="key8" />
+            </p:panelGrid>
+            <p:toolbar id="detailToolbar" styleClass="detailToolbar">
+                <f:facet name="left">
+                    <p:commandButton id="btnAddDetail" widgetVar="btnAddDetail" value="添加" actionListener="#{bookingKindManagedBean.createDetail()}" icon="ui-icon-plus"
+                                     oncomplete="PF('btnAddDetail').disable();PF('btnDeleteDetail').disable();PF('btnSaveDetail').enable();"
+                                     update="formOne:plgDetail" process="@this" />
+                    <p:commandButton id="btnDeleteDetail" widgetVar="btnDeleteDetail" value="删除" actionListener="#{bookingKindManagedBean.deleteDetail()}" icon="ui-icon-trash"
+                                     oncomplete="PF('btnAddDetail').enable();PF('btnDeleteDetail').disable();PF('btnSaveDetail').disable();"
+                                     update="tableList,plgDetail" process="@this" />
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnSaveDetail" widgetVar="btnSaveDetail" value="确定" actionListener="#{bookingKindManagedBean.doConfirmDetail()}" icon="ui-icon-check"
+                                     onsuccess="PF('btnAddDetail').enable();PF('btnDeleteDetail').disable();PF('btnSaveDetail').disable();"
+                                     update="tableList,plgDetail" process="@this,plgDetail"/>
+                </f:facet>
+            </p:toolbar>
+            <p:panelGrid id="plgDetail" columns="2" columnClasses="Wid20,Wid80" styleClass="plgHead Wid100">
+                <p:column><p:outputLabel value="其他事项" for="description" /></p:column>
+                <p:column>
+                    <p:inputText id="description" value="#{bookingKindManagedBean.currentDetail.description}"
+                                 required="true" requiredMessage="请输入事项名称"/>
+                </p:column>
+            </p:panelGrid>
+            <p:dataTable id="tableList" value="#{bookingKindManagedBean.detailList}" var="item" styleClass="tableList Mtop10"
+                         selectionMode="single" selection="#{bookingKindManagedBean.currentDetail}" rowKey="#{item.seq}" >
+                <p:ajax event="rowSelect"  update="formOne:plgDetail" oncomplete="PF('btnAddDetail').disable();PF('btnDeleteDetail').enable();PF('btnSaveDetail').enable();" />
+                <p:ajax event="rowUnselect"  update="formOne:plgDetail" oncomplete="" />
+                <f:facet name="header">
+                    其他事项
+                </f:facet>
+                <p:column styleClass="Wid20">
+                    <f:facet name="header">
+                        <h:outputText value="序号"/>
+                    </f:facet>
+                    <h:outputText value="#{item.seq}"/>
+                </p:column>
+                <p:column styleClass="Wid80">
+                    <f:facet name="header">
+                        <h:outputText value="说明"/>
+                    </f:facet>
+                    <h:outputText value="#{item.description}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

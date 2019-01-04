@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <h:form id="formOne">
+            <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:button id="btnReturn" value="返回" outcome="sysname" icon="ui-icon-restore"/>
+                    <p:commandButton id="btnPrev" value="向前" actionListener="#{systemNameManagedBean.toPrev()}" icon="ui-icon-navigate-before"
+                                     rendered="#{systemNameManagedBean.hasPrev}" process="@this" update="formOne" />
+                    <p:commandButton id="btnNext" value="向后" actionListener="#{systemNameManagedBean.toNext()}" icon="ui-icon-navigate-next"
+                                     rendered="#{systemNameManagedBean.hasNext}" process="@this" update="formOne" />
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnVerify" value="审核" action="#{systemNameManagedBean.verify()}" icon="ui-icon-check"
+                                     rendered="#{systemNameManagedBean.currentEntity.status!='V'}" update="toolbar"/>
+                </f:facet>
+            </p:toolbar>
+            <p:panelGrid id="plgHead" columns="2" columnClasses="Wid20,Wid80" styleClass="plgHead Wid100">
+                <f:facet name="header">
+                    系统维护－查看
+                </f:facet>
+                <h:outputText value="名称"/>
+                <h:outputText value="#{systemNameManagedBean.currentEntity.name}" title="Name"/>
+                <h:outputText value="排序"/>
+                <h:outputText value="#{systemNameManagedBean.currentEntity.sortid}" title="Sortid"/>
+                <h:outputText value="AppId"/>
+                <h:outputText id="appid" value="#{systemNameManagedBean.currentEntity.appid}" title="appid" />
+                <h:outputText value="Token"/>
+                <h:outputText id="token" value="#{systemNameManagedBean.currentEntity.token}" title="token"/>
+                <h:outputText value="备注"/>
+                <h:outputText value="#{systemNameManagedBean.currentEntity.descript}" title="Descript"/>
+                <h:outputText value="状态"/>
+                <h:outputText value="#{systemNameManagedBean.currentEntity.status}" title="Status"/>
+                <h:outputText value="创建人员"/>
+                <h:outputText value="#{systemNameManagedBean.currentEntity.creator}" title="Creator"/>
+                <h:outputText value="创建日期"/>
+                <h:outputText value="#{systemNameManagedBean.currentEntity.credate}" title="Credate">
+                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" />
+                </h:outputText>
+            </p:panelGrid>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

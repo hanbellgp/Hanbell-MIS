@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta name="theme-color" content="dark-green" />
+            <meta http-equiv="refresh" content="60"/>
+        </f:facet>
+        <title>汉钟精机 | Middleware</title>
+        <h:outputScript name="js/nanoscroller.js" library="ultima-layout" />
+        <h:outputScript name="js/layout.js" library="ultima-layout" />
+        <h:outputScript name="js/ripple.js" library="ultima-layout" />
+        <h:outputScript name="js/swipe.js" library="ultima-layout" />
+        <ui:insert name="head"/>
+    </h:head>
+
+    <h:body styleClass="exception-body">
+
+        <h:form id="formOne">
+            <div style="margin-top: 40px"><h1 style="text-align: center;font-size: 22pt">2018 汉钟精机22周年厂庆运动会团体成绩表<p:link value="返回" outcome="sports" style="float: right"/></h1></div>
+            <p:growl id="growl" showSummary="false" showDetail="true" autoUpdate="true"/>
+            <p:panel id="panelList">
+                <p:dataTable id="tblList" value="#{sportsManagedBean.model}" var="item" paginator="true" paginatorPosition="bottom" rows="15"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="15,30,45" lazy="true" styleClass="tableList"
+                             selectionMode="single" selection="#{sportsManagedBean.currentEntity}" rowKey="#{item.id}">
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column rowspan="2" headerText="部门" style="width: 120px"/>
+                            <p:column colspan="4" headerText="拔河" />
+                            <p:column colspan="4" headerText="乒乓球" />
+                            <p:column colspan="4" headerText="羽毛球" />
+                            <p:column colspan="4" headerText="同舟共济" />
+                            <p:column colspan="4" headerText="跳绳" />
+                            <p:column rowspan="2" headerText="总分" />
+                        </p:row>
+                        <p:row>
+                            <p:column headerText="冠" />
+                            <p:column headerText="亚" />
+                            <p:column headerText="季" />
+                            <p:column headerText="参" />
+                            <p:column headerText="冠" />
+                            <p:column headerText="亚" />
+                            <p:column headerText="季" />
+                            <p:column headerText="参" />
+                            <p:column headerText="冠" />
+                            <p:column headerText="亚" />
+                            <p:column headerText="季" />
+                            <p:column headerText="参" />
+                            <p:column headerText="冠" />
+                            <p:column headerText="亚" />
+                            <p:column headerText="季" />
+                            <p:column headerText="参" />
+                            <p:column headerText="冠" />
+                            <p:column headerText="亚" />
+                            <p:column headerText="季" />
+                            <p:column headerText="参" />
+                        </p:row>
+                    </p:columnGroup>
+                    <p:column>
+                        <h:outputText value="#{item.dept}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s01}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s02}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s03}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s04}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s11}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s12}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s13}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s14}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s21}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s22}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s23}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s24}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s31}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s32}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s33}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s34}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s41}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s42}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s43}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.s44}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{item.score}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+
+        <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+            <f:facet name="start">
+                <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
+            </f:facet>
+
+            <f:facet name="complete">
+                <h:outputText value="" />
+            </f:facet>
+        </p:ajaxStatus>
+
+        <h:outputStylesheet name="css/nanoscroller.css" library="ultima-layout" />
+        <h:outputStylesheet name="css/animate.css" library="ultima-layout" />
+        <h:outputStylesheet name="css/ripple.css" library="ultima-layout" />
+        <h:outputStylesheet name="css/layout-dark-green.css" library="ultima-layout" />
+        <h:outputStylesheet name="master.css" library="css" />
+        <h:outputScript name="master.js" library="js" />
+    </h:body>
+
+</html>

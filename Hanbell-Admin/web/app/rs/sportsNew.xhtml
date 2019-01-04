@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h:form id="formOne">
+            <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:button id="btnReturn" value="返回" outcome="sports" icon="ui-icon-restore"/>
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnSave" value="保存" actionListener="#{sportsManagedBean.persist()}" icon="ui-icon-save"
+                                     process="@this,plgHead" update="plgHead"/>
+                </f:facet>
+            </p:toolbar>
+            <p:panelGrid id="plgHead"  styleClass="plgHead Wid100" columns="2">
+                <p:outputLabel value="参赛部门" for="dept" />
+                <p:inputText id="dept" value="#{sportsManagedBean.newEntity.dept}" title="Dept" required="true" requiredMessage="请输入部门"/>
+                <p:outputLabel value="拔河冠军" for="s01" />
+                <p:inputText id="s01" value="#{sportsManagedBean.newEntity.s01}" title="S01" />
+                <p:outputLabel value="拔河亚军" for="s02" />
+                <p:inputText id="s02" value="#{sportsManagedBean.newEntity.s02}" title="S02" />
+                <p:outputLabel value="拔河季军" for="s03" />
+                <p:inputText id="s03" value="#{sportsManagedBean.newEntity.s03}" title="S03" />
+                <p:outputLabel value="拔河参与" for="s04" />
+                <p:inputText id="s04" value="#{sportsManagedBean.newEntity.s04}" title="S04" />
+                <p:outputLabel value="乒乓冠军" for="s11" />
+                <p:inputText id="s11" value="#{sportsManagedBean.newEntity.s11}" title="S11" />
+                <p:outputLabel value="乒乓亚军" for="s12" />
+                <p:inputText id="s12" value="#{sportsManagedBean.newEntity.s12}" title="S12" />
+                <p:outputLabel value="乒乓季军" for="s13" />
+                <p:inputText id="s13" value="#{sportsManagedBean.newEntity.s13}" title="S13" />
+                <p:outputLabel value="乒乓参与" for="s14" />
+                <p:inputText id="s14" value="#{sportsManagedBean.newEntity.s14}" title="S14" />
+                <p:outputLabel value="羽毛冠军" for="s21" />
+                <p:inputText id="s21" value="#{sportsManagedBean.newEntity.s21}" title="S21" />
+                <p:outputLabel value="羽毛亚军" for="s22" />
+                <p:inputText id="s22" value="#{sportsManagedBean.newEntity.s22}" title="S22" />
+                <p:outputLabel value="羽毛季军" for="s23" />
+                <p:inputText id="s23" value="#{sportsManagedBean.newEntity.s23}" title="S23" />
+                <p:outputLabel value="羽毛参与" for="s24" />
+                <p:inputText id="s24" value="#{sportsManagedBean.newEntity.s24}" title="S24" />
+                <p:outputLabel value="同济冠军" for="s31" />
+                <p:inputText id="s31" value="#{sportsManagedBean.newEntity.s31}" title="S31" />
+                <p:outputLabel value="同济亚军" for="s32" />
+                <p:inputText id="s32" value="#{sportsManagedBean.newEntity.s32}" title="S32" />
+                <p:outputLabel value="同济季军" for="s33" />
+                <p:inputText id="s33" value="#{sportsManagedBean.newEntity.s33}" title="S33" />
+                <p:outputLabel value="同济参与" for="s34" />
+                <p:inputText id="s34" value="#{sportsManagedBean.newEntity.s34}" title="S34" />
+                <p:outputLabel value="跳绳冠军" for="s41" />
+                <p:inputText id="s41" value="#{sportsManagedBean.newEntity.s41}" title="S41" />
+                <p:outputLabel value="跳绳亚军" for="s42" />
+                <p:inputText id="s42" value="#{sportsManagedBean.newEntity.s42}" title="S42" />
+                <p:outputLabel value="跳绳季军" for="s43" />
+                <p:inputText id="s43" value="#{sportsManagedBean.newEntity.s43}" title="S43" />
+                <p:outputLabel value="跳绳参与" for="s44" />
+                <p:inputText id="s44" value="#{sportsManagedBean.newEntity.s44}" title="S44" />
+            </p:panelGrid>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+       
+
+
+        <h:form id="formOne">
+                <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:button id="btnReturn" value="返回" outcome="demandschedule" icon="ui-icon-restore"/>
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnSave" value="保存" action="#{demandscheduleManagedBean.persist()}" icon="ui-icon-save"
+                                     process="@this,panel" update="panel"/>
+                </f:facet>
+            </p:toolbar>  
+                <h1><h:outputText value="Create/Edit"/></h1>
+                <p:panelGrid  id="panel" columns="2">
+                    <p:outputLabel value="Systemname:" for="systemname" />
+                    <p:inputText id="systemname" value="#{demandscheduleManagedBean.currentEntity.systemname}" title="Systemname"/>
+                    <p:outputLabel value="Requestdescript:" for="requestdescript" />
+                    <p:inputText id="requestdescript" value="#{demandscheduleManagedBean.currentEntity.requestdescript}" title="Requestdescript"/>
+                    <p:outputLabel value="Briefrequestscript:" for="briefrequestscript" />
+                    <p:inputText id="briefrequestscript" value="#{demandscheduleManagedBean.currentEntity.briefrequestscript}" title="Briefrequestscript" />
+                    <p:outputLabel value="Applydept:" for="applydept" />
+                    <p:inputText id="applydept" value="#{demandscheduleManagedBean.currentEntity.applydept}" title="Applydept" />
+                    <p:outputLabel value="Applyuser:" for="applyuser" />
+                    <p:inputText id="applyuser" value="#{demandscheduleManagedBean.currentEntity.applyuser}" title="Applyuser" />
+                    <p:outputLabel value="Applytime:" for="applytime" />
+                    <p:inputText id="applytime" value="#{demandscheduleManagedBean.currentEntity.applytime}" title="Applytime" />
+                    <p:outputLabel value="Planfinishtime:" for="planfinishtime" />
+                    <p:inputText id="planfinishtime" value="#{demandscheduleManagedBean.currentEntity.planfinishtime}" title="Planfinishtime" >
+                    </p:inputText>
+                    <p:outputLabel value="Steptime:" for="steptime" />
+                    <p:inputText id="steptime" value="#{demandscheduleManagedBean.currentEntity.steptime}" title="Steptime" />
+                    <p:outputLabel value="Chargedept:" for="chargedept" />
+                    <p:inputText id="chargedept" value="#{demandscheduleManagedBean.currentEntity.chargedept}" title="Chargedept" />
+                    <p:outputLabel value="Finishstatus:" for="finishstatus" />
+                    <p:inputText id="finishstatus" value="#{demandscheduleManagedBean.currentEntity.finishstatus}" title="Finishstatus" />
+                    <p:outputLabel value="Chargedeptremark:" for="chargedeptremark" />
+                    <p:inputText id="chargedeptremark" value="#{demandscheduleManagedBean.currentEntity.chargedeptremark}" title="Chargedeptremark" />
+                    <p:outputLabel value="Applydeptremark:" for="applydeptremark" />
+                    <p:inputText id="applydeptremark" value="#{demandscheduleManagedBean.currentEntity.applydeptremark}" title="Applydeptremark" >
+                    </p:inputText>
+                    <p:outputLabel value="Requeststate:" for="requeststate" />
+                    <p:inputText id="requeststate" value="#{demandscheduleManagedBean.currentEntity.requeststate}" title="Requeststate" >
+                    </p:inputText>
+                    <p:outputLabel value="Status:" for="status" />
+                    <p:inputText id="status" value="#{demandscheduleManagedBean.currentEntity.status}" title="Status" />
+                    <p:outputLabel value="Creator:" for="creator" />
+                    <p:inputText id="creator" value="#{demandscheduleManagedBean.currentEntity.creator}" title="Creator" />
+                    <p:outputLabel value="Credate:" for="credate" />
+                    <p:inputText id="credate" value="#{demandscheduleManagedBean.currentEntity.credate}" title="Credate" >
+                    </p:inputText>
+                    <p:outputLabel value="Optuser:" for="optuser" />
+                    <p:inputText id="optuser" value="#{demandscheduleManagedBean.currentEntity.optuser}" title="Optuser" />
+                    <p:outputLabel value="Optdate:" for="optdate" />
+                    <p:inputText id="optdate" value="#{demandscheduleManagedBean.currentEntity.optdate}" title="Optdate" >
+                    </p:inputText>
+                    <p:outputLabel value="Cfmuser:" for="cfmuser" />
+                    <p:inputText id="cfmuser" value="#{demandscheduleManagedBean.currentEntity.cfmuser}" title="Cfmuser" />
+                    <p:outputLabel value="Cfmdate:" for="cfmdate" />
+                    <p:inputText id="cfmdate" value="#{demandscheduleManagedBean.currentEntity.cfmdate}" title="Cfmdate" >
+                    </p:inputText>
+                    </p:panelGrid>
+            </h:form>
+       
+
+    </ui:define>
+
+</ui:composition>

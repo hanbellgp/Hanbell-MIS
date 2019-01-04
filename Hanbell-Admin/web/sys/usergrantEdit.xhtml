@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <h:form id="formOne">
+            <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:button id="btnReturn" value="返回" outcome="usergrant" icon="ui-icon-restore"  />
+                    <p:commandButton id="btnPrev" value="向前" actionListener="#{userGrantManagedBean.toPrev()}" icon="ui-icon-navigate-before"
+                                     process="@this" update="formOne"
+                                     rendered="#{userGrantManagedBean.hasPrev}"/>
+                    <p:commandButton id="btnNext" value="向后" actionListener="#{userGrantManagedBean.toNext()}" icon="ui-icon-navigate-next"
+                                     process="@this" update="formOne"
+                                     rendered="#{userGrantManagedBean.hasNext}"/>
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnSave" value="保存" actionListener="#{userGrantManagedBean.update()}" icon="ui-icon-save"
+                                     process="@this,plgHead" update="formOne"/>
+                </f:facet>
+            </p:toolbar>
+            <p:panel id="panelHead">
+                <p:panelGrid id="plgHead" styleClass="plgHead Wid100">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column colspan="4">
+                                用户授权－编辑
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column styleClass="Wid20"><h:outputText value="编号"/></p:column>
+                        <p:column styleClass="Wid30">
+                            <h:outputText id="userno" value="#{userGrantManagedBean.currentEntity.userid}" title="userno"/>
+                        </p:column>
+                        <p:column styleClass="Wid20"><h:outputText value="名称"/></p:column>
+                        <p:column styleClass="Wid30">
+                            <h:outputText id="username" value="#{userGrantManagedBean.currentEntity.username}" title="username"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:tabView id="tabView" styleClass="tabView">
+                    <p:tab title="模块授权">
+                        <p:toolbar id="detailToolbar" styleClass="detailToolbar">
+                            <f:facet name="left">
+                                <p:commandButton id="btnAddDetail" widgetVar="btnAddDetail" value="添加" actionListener="#{userGrantManagedBean.createDetail()}" icon="ui-icon-plus"
+                                                 oncomplete="PF('btnAddDetail').disable();PF('btnDeleteDetail').disable();PF('btnSaveDetail').enable();"
+                                                 process="@this" update=":formOne:tabView:plgDetail"/>
+                                <p:commandButton id="btnDeleteDetail" widgetVar="btnDeleteDetail" value="删除" actionListener="#{userGrantManagedBean.deleteDetail()}" icon="ui-icon-trash"
+                                                 oncomplete="PF('btnAddDetail').enable();PF('btnDeleteDetail').disable();PF('btnSaveDetail').disable();"
+                                                 process="@this" update=":formOne:tabView:plgDetail,:formOne:tabView:tableList" />
+                            </f:facet>
+                            <f:facet name="right">
+                                <p:commandButton id="btnSaveDetail" widgetVar="btnSaveDetail" value="确定" actionListener="#{userGrantManagedBean.doConfirmDetail()}" icon="ui-icon-check"
+                                                 onsuccess="PF('btnAddDetail').enable();PF('btnDeleteDetail').disable();PF('btnSaveDetail').disable();"
+                                                 process="@this,:formOne:tabView:plgDetail" update=":formOne:tabView:plgDetail,:formOne:tabView:tableList"/>
+                            </f:facet>
+                        </p:toolbar>
+                        <p:panelGrid id="plgDetail" columns="4" columnClasses="Wid20,Wid30,Wid20,Wid30" styleClass="plgDetail Wid100">
+                            <p:column><p:outputLabel value="系统模块" for="sysmodule" /></p:column>
+                            <p:column>
+                                <p:selectOneMenu id="sysmodule" value="#{userGrantManagedBean.currentDetail.systemModule}"
+                                                 converter="systemModuleConverter" required="true" requiredMessage="请选择模块">
+                                    <!-- TODO: update below reference to list of available items-->
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{userGrantManagedBean.moduleList}" var="m" itemLabel="#{m.sysname}-#{m.name}" itemValue="#{m}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column></p:column>
+                            <p:column>
+
+                            </p:column>
+                        </p:panelGrid>
+                        <p:dataTable id="tableList" value="#{userGrantManagedBean.detailList}" var="item" styleClass="tableList Wid100 Mtop10"
+                                     selectionMode="single" selection="#{userGrantManagedBean.currentDetail}" rowKey="#{item.systemModule}" >
+                            <p:ajax event="rowSelect"  update=":formOne:tabView:plgDetail,:formOne:tabView:tableList" oncomplete="PF('btnAddDetail').disable();PF('btnDeleteDetail').enable();PF('btnSaveDetail').enable();" />
+                            <p:ajax event="rowUnselect"  update=":formOne:tabView:plgDetail,:formOne:tabView:tableList" oncomplete="" />
+                            <p:column styleClass="Wid20">
+                                <f:facet name="header">
+                                    <h:outputText value="系统名称"/>
+                                </f:facet>
+                                <h:outputText value="#{item.systemModule.sysname}"/>
+                            </p:column>
+                            <p:column styleClass="Wid20">
+                                <f:facet name="header">
+                                    <h:outputText value="授权模块"/>
+                                </f:facet>
+                                <h:outputText value="#{item.systemModule.name}"/>
+                            </p:column>
+                            <p:column styleClass="Wid60">
+
+                            </p:column>
+                        </p:dataTable>
+                    </p:tab>
+                    <p:tab title="程序授权">
+                        <p:toolbar id="detailToolbar2" styleClass="detailToolbar">
+                            <f:facet name="left">
+                                <p:commandButton id="btnAddDetail2" widgetVar="btnAddDetail2" value="添加" actionListener="#{userGrantManagedBean.createDetail2()}" icon="ui-icon-plus"
+                                                 oncomplete="PF('btnAddDetail2').disable();PF('btnDeleteDetail2').disable();PF('btnSaveDetail2').enable();"
+                                                 update=":formOne:tabView:plgDetail2" process="@this" />
+                                <p:commandButton id="btnDeleteDetail2" widgetVar="btnDeleteDetail2" value="删除" actionListener="#{userGrantManagedBean.deleteDetail2()}" icon="ui-icon-trash"
+                                                 oncomplete="PF('btnAddDetail2').enable();PF('btnDeleteDetail2').disable();PF('btnSaveDetail2').disable();"
+                                                 update=":formOne:tabView:plgDetail2,:formOne:tabView:tableList2" process="@this" />
+                            </f:facet>
+                            <f:facet name="right">
+                                <p:commandButton id="btnSaveDetail2" widgetVar="btnSaveDetail2" value="确定" actionListener="#{userGrantManagedBean.doConfirmDetail2()}" icon="ui-icon-check"
+                                                 onsuccess="PF('btnAddDetail2').enable();PF('btnDeleteDetail2').disable();PF('btnSaveDetail2').disable();"
+                                                 update=":formOne:tabView:plgDetail2,:formOne:tabView:tableList2" process="@this,:formOne:tabView:plgDetail2"/>
+                            </f:facet>
+                        </p:toolbar>
+                        <p:panelGrid id="plgDetail2" styleClass="plgDetail Wid100">
+                            <p:row>
+                                <p:column styleClass="Wid20"><p:outputLabel value="程序名称" for="name" /></p:column>
+                                <p:column styleClass="Wid30">
+                                    <p:inputText id="name" value="#{userGrantManagedBean.currentDetail2.sysprg.name}" title="Name" styleClass="inputWithButton"
+                                                 required="true" requiredMessage="请输入人程序名称" readonly="true"/>
+                                    <p:commandButton id="btnSelectSysprg" actionListener="#{userGrantManagedBean.openDialog('sysprgSelect')}" icon="ui-icon-extlink"
+                                                     process="@this" >
+                                        <p:ajax event="dialogReturn" listener="#{userGrantManagedBean.handleDialogReturnWhenEdit}"
+                                                update="plgDetail2" />
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column styleClass="Wid20"><h:outputText value="系统模块" /></p:column>
+                                <p:column styleClass="Wid30">
+                                    <h:outputText value="#{userGrantManagedBean.currentDetail2.sysprg.systemModule.name}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column><p:outputLabel value="新增" for="doadd" /></p:column>
+                                <p:column>
+                                    <p:inputSwitch id="doadd" value="#{userGrantManagedBean.currentDetail2.doadd}"
+                                                   required="true" disabled="#{!userGrantManagedBean.currentDetail2.sysprg.doadd}"/>
+                                </p:column>
+                                <p:column><p:outputLabel value="修改" for="doedit" /></p:column>
+                                <p:column>
+                                    <p:inputSwitch id="doedit" value="#{userGrantManagedBean.currentDetail2.doedit}"
+                                                   required="true" disabled="#{!userGrantManagedBean.currentDetail2.sysprg.doedit}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column><p:outputLabel value="删除" for="dodel" /></p:column>
+                                <p:column>
+                                    <p:inputSwitch id="dodel" value="#{userGrantManagedBean.currentDetail2.dodel}"
+                                                   required="true" disabled="#{!userGrantManagedBean.currentDetail2.sysprg.dodel}"/>
+                                </p:column>
+                                <p:column><p:outputLabel value="打印" for="doprt" /></p:column>
+                                <p:column>
+                                    <p:inputSwitch id="doprt" value="#{userGrantManagedBean.currentDetail2.doprt}"
+                                                   required="true" disabled="#{!userGrantManagedBean.currentDetail2.sysprg.doprt}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column><p:outputLabel value="审核" for="docfm" /></p:column>
+                                <p:column>
+                                    <p:inputSwitch id="docfm" value="#{userGrantManagedBean.currentDetail2.docfm}"
+                                                   required="true" disabled="#{!userGrantManagedBean.currentDetail2.sysprg.docfm}"/>
+                                </p:column>
+                                <p:column><p:outputLabel value="还原" for="douncfm" /></p:column>
+                                <p:column>
+                                    <p:inputSwitch id="douncfm" value="#{userGrantManagedBean.currentDetail2.douncfm}"
+                                                   required="true" disabled="#{!userGrantManagedBean.currentDetail2.sysprg.douncfm}"/>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column><p:outputLabel value="特权" for="dopriv" /></p:column>
+                                <p:column>
+                                    <p:inputSwitch id="dopriv" value="#{userGrantManagedBean.currentDetail2.dopriv}"
+                                                   required="true" disabled="#{!userGrantManagedBean.currentDetail2.sysprg.dopriv}"/>
+                                </p:column>
+                                <p:column></p:column>
+                                <p:column>
+
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        <p:dataTable id="tableList2" value="#{userGrantManagedBean.detailList2}" var="item" styleClass="tableList Wid100 Mtop10"
+                                     selectionMode="single" selection="#{userGrantManagedBean.currentDetail2}" rowKey="#{item.seq}" >
+                            <p:ajax event="rowSelect"  update=":formOne:tabView:plgDetail2" oncomplete="PF('btnAddDetail2').disable();PF('btnDeleteDetail2').enable();PF('btnSaveDetail2').enable();" />
+                            <p:ajax event="rowUnselect"  update=":formOne:tabView:plgDetail2" oncomplete="" />
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="模块"/>
+                                </f:facet>
+                                <h:outputText value="#{item.sysprg.systemModule.name}"/>
+                            </p:column>
+                            <p:column styleClass="Wid20">
+                                <f:facet name="header">
+                                    <h:outputText value="程序名称"/>
+                                </f:facet>
+                                <h:outputText value="#{item.sysprg.name}"/>
+                            </p:column>
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="新增"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.doadd}" disabled="true"/>
+                            </p:column>
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="修改"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.doedit}" disabled="true"/>
+                            </p:column>
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="删除"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.dodel}" disabled="true"/>
+                            </p:column>
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="打印"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.doprt}" disabled="true"/>
+                            </p:column>
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="审核"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.docfm}" disabled="true"/>
+                            </p:column>
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="还原"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.douncfm}" disabled="true"/>
+                            </p:column>
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="特权"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.dopriv}" disabled="true"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:tab>
+                </p:tabView>
+            </p:panel>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

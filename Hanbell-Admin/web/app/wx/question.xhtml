@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <h:form id="formList">
+            <p:growl id="growl" showSummary="false" showDetail="true" autoUpdate="true"/>
+            <p:panelGrid id="plgQuery" columns="4" columnClasses="Wid20,Wid30,Wid20,Wid30" styleClass="plgQuery Wid100">
+                <f:facet name="header">
+                    查询条件
+                </f:facet>
+                <h:outputLabel value="名称" for="queryName" />
+                <p:inputText id="queryName" value="#{questionManagedBean.queryName}" title="名称" />
+                <h:outputLabel value="状态" for="queryState" />
+                <p:selectOneMenu id="queryState" value="#{questionManagedBean.queryState}" title="状态" >
+                    <f:selectItem itemLabel="全部" itemValue="ALL"/>
+                    <f:selectItem itemLabel="未审核" itemValue="N"/>
+                    <f:selectItem itemLabel="已审核" itemValue="V"/>
+                </p:selectOneMenu>
+                <h:outputLabel value="建立日期" for="queryDateBegin" />
+                <p:calendar id="queryDateBegin" value="#{questionManagedBean.queryDateBegin}" title="开始日期" pattern="yyyy/MM/dd"/>
+                <h:outputLabel value="截止日期" for="queryDateEnd" />
+                <p:calendar id="queryDateEnd" value="#{questionManagedBean.queryDateEnd}" title="结束日期" pattern="yyyy/MM/dd"/>
+            </p:panelGrid>
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:commandButton id="btnLoad" value="刷新" actionListener="#{questionManagedBean.init()}" icon="ui-icon-sync"
+                                     update=":formList"/>
+                    <p:commandButton id="btnPush" value="发布" actionListener="#{questionManagedBean.push()}"  icon="ui-icon-cloud-upload"
+                                     update=":formList"/>
+                </f:facet>
+                <f:facet name="right">
+                    <p:splitButton id="btnOperate" value="操作" icon="ui-icon-menu">
+                        <p:menuitem id="btnEdit" value="编辑" action="#{questionManagedBean.edit('questionEdit')}" icon="ui-icon-pencil"
+                                    rendered="#{questionManagedBean.doEdit}"/>
+                        <p:menuitem id="btnDelete" value="删除" actionListener="#{questionManagedBean.delete()}" icon="ui-icon-trash"
+                                    rendered="#{questionManagedBean.doDel}" update=":formList">
+                            <p:confirm header="系统提示" message="删除吗?" icon="ui-icon-alert" />
+                        </p:menuitem>
+                        <p:menuitem id="btnVerify" value="审核"  actionListener="#{questionManagedBean.verify()}" icon="ui-icon-check"
+                                    rendered="#{questionManagedBean.doCfm}"  update=":formList"/>
+                        <p:menuitem id="btnUnverify" value="还原" actionListener="#{questionManagedBean.unverify()}" icon="ui-icon-lock-open"
+                                    rendered="#{questionManagedBean.doUnCfm}"  update=":formList"/>
+                        <p:menuitem id="btnCreate" value="新增" action="#{questionManagedBean.create('questionNew')}" icon="ui-icon-plus"
+                                    rendered="#{questionManagedBean.doAdd}" process="@this" />
+                    </p:splitButton>
+                    <p:commandButton id="btnReset" value="重置" actionListener="#{questionManagedBean.reset()}" icon="ui-icon-refresh"
+                                     update=":formList"/>
+                    <p:commandButton id="btnQuery" value="查询" actionListener="#{questionManagedBean.query()}" icon="ui-icon-search"
+                                     update=":formList"/>
+                </f:facet>
+            </p:toolbar>
+            <p:panel id="panelList">
+                <p:dataTable value="#{questionManagedBean.model}" var="item"  tableStyleClass="tableList" paginator="true" paginatorPosition="bottom" rows="15"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="15,30,45"  lazy="true"
+                             selectionMode="single" selection="#{questionManagedBean.currentEntity}" rowKey="#{item.id}" >
+                    <f:facet name="header">
+                        常见问题
+                    </f:facet>
+                    <p:ajax event="rowSelect"  update=":formList:toolbar" />
+                    <p:ajax event="rowUnselect" update=":formList:toolbar" />
+                    <p:column styleClass="Wid40">
+                        <f:facet name="header">
+                            <h:outputText value="名称"/>
+                        </f:facet>
+                        <h:outputText value="#{item.title}"/>
+                    </p:column>
+                    <p:column styleClass="Wid10">
+                        <f:facet name="header">
+                            <h:outputText value="置顶"/>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{item.ontop}" disabled="true"/>
+                    </p:column>
+                    <p:column styleClass="Wid20">
+                        <f:facet name="header">
+                            <h:outputText value="分类"/>
+                        </f:facet>
+                        <h:outputText value="#{item.category.name}"/>
+                    </p:column>
+                    <p:column styleClass="Wid10">
+                        <f:facet name="header">
+                            <h:outputText value="日期"/>
+                        </f:facet>
+                        <h:outputText value="#{item.credate}">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column styleClass="Wid10">
+                        <f:facet name="header">
+                            <h:outputText value="作者"/>
+                        </f:facet>
+                        <h:outputText value="#{item.creator}"/>
+                    </p:column>
+                    <p:column styleClass="Wid10">
+                        <f:facet name="header">
+                            <h:outputText value="状态"/>
+                        </f:facet>
+                        <h:outputText value="#{item.status}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h:form id="formOne">
+            <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:button id="btnReturn" value="返回" outcome="question" icon="ui-icon-restore"/>
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnSave" value="保存" actionListener="#{questionManagedBean.persist()}" icon="ui-icon-save"
+                                     process="@this,plgHead" update="plgHead,formOne:tabView:tableList"/>
+                </f:facet>
+            </p:toolbar>
+            <p:panelGrid id="plgHead" columns="2" columnClasses="Wid20,Wid80" styleClass="plgHead Wid100">
+                <f:facet name="header">
+                    常见问题－新增
+                </f:facet>
+                <p:outputLabel value="分类" for="category" />
+                <p:selectOneMenu id="category" value="#{questionManagedBean.newEntity.category}"
+                                 required="true" requiredMessage="分类不能空白" converter="questionCategoryConverter">
+                    <!-- TODO: update below reference to list of available items-->
+                    <f:selectItem itemLabel="Select One" itemValue=""/>
+                    <f:selectItems value="#{questionManagedBean.categoryList}" var="c" itemLabel="#{c.name}" itemValue="#{c}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="标题" for="title" />
+                <p:inputText id="title" value="#{questionManagedBean.newEntity.title}" title="Title"
+                             required="true" requiredMessage="标题不能空白"/>
+                <p:outputLabel value="副标题" for="subtitle" />
+                <p:inputText id="subtitle" value="#{questionManagedBean.newEntity.subtitle}" placeholder="小于40字" title="Subtitle" />
+                <p:outputLabel value="作者" for="creator" />
+                <p:inputText id="creator" value="#{questionManagedBean.newEntity.creator}" title="creator"
+                             required="true" requiredMessage="作者不能空白"/>
+                <p:outputLabel value="是否置顶" for="ontop" />
+                <p:inputSwitch id="ontop" value="#{questionManagedBean.newEntity.ontop}"
+                               required="true" requiredMessage="置顶不能空白"/>
+                <p:outputLabel value="封面图片" for="imgfile" />
+                <p:inputText id="imgfile" value="#{questionManagedBean.newEntity.imgfile}" title="Imgfile"
+                             placeholder="首页展示1280*500px,其他800*600px" required="true" requiredMessage="封面图片不能空白"/>
+                <p:outputLabel value="摘要小于120字" for="content" />
+                <p:editor id="content" value="#{questionManagedBean.newEntity.content}" required="true" requiredMessage="摘要不能空白"/>
+            </p:panelGrid>
+            <p:fileUpload id="fileUpload" fileUploadListener="#{questionManagedBean.handleFileUploadWhenNew}"  styleClass="fileUpload"
+                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="5000000"
+                          label="选择" uploadLabel="上传" cancelLabel="取消" process="@this" update=":formOne:imgfile"/>
+            <p:tabView id="tabView" styleClass="tabView">
+                <p:tab title="展示内容">
+                    <p:toolbar id="detailToolbar" styleClass="detailToolbar">
+                        <f:facet name="left">
+                            <p:commandButton id="btnAddDetail" widgetVar="btnAddDetail" value="添加" actionListener="#{questionManagedBean.createDetail()}" icon="ui-icon-plus"
+                                             oncomplete="PF('btnAddDetail').disable();PF('btnDeleteDetail').disable();PF('btnSaveDetail').enable();"
+                                             process="@this" update="tabView:plgDetail"/>
+                            <p:commandButton id="btnDeleteDetail" widgetVar="btnDeleteDetail" value="删除" actionListener="#{questionManagedBean.deleteDetail()}" icon="ui-icon-trash"
+                                             oncomplete="PF('btnAddDetail').enable();PF('btnDeleteDetail').disable();PF('btnSaveDetail').disable();"
+                                             process="@this" update="tableList,tabView:plgDetail"/>
+                        </f:facet>
+                        <f:facet name="right">
+                            <p:commandButton id="btnSaveDetail" widgetVar="btnSaveDetail" value="确定" actionListener="#{questionManagedBean.doConfirmDetail()}" icon="ui-icon-check"
+                                             onsuccess="PF('btnAddDetail').enable();PF('btnDeleteDetail').disable();PF('btnSaveDetail').disable();"
+                                             process="@this,formOne:tabView:plgDetail" update="tableList,tabView:plgDetail"/>
+                        </f:facet>
+                    </p:toolbar>
+                    <p:panelGrid id="plgDetail" styleClass="plgHead Wid100">
+                        <p:row>
+                            <p:column><p:outputLabel value="问题图片" for="detailimgfile" /></p:column>
+                            <p:column>
+                                <p:inputText id="detailimgfile" value="#{questionManagedBean.currentDetail.imgfile}" title="detailimgfile" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column><p:outputLabel value="问题内容" for="detailcontent" /></p:column>
+                            <p:column>
+                                <p:editor id="detailcontent" value="#{questionManagedBean.currentDetail.content}" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:dataTable id="tableList" value="#{questionManagedBean.detailList}" var="item" styleClass="tableList Wid100 Mtop10"
+                                 selectionMode="single" selection="#{questionManagedBean.currentDetail}" rowKey="#{item.seq}" >
+                        <p:ajax event="rowSelect"  update="formOne:tabView:plgDetail" oncomplete="PF('btnAddDetail').disable();PF('btnDeleteDetail').enable();PF('btnSaveDetail').enable();" />
+                        <p:ajax event="rowUnselect"  update="formOne:tabView:plgDetail" oncomplete="" />
+                        <p:column styleClass="Wid10">
+                            <f:facet name="header">
+                                <h:outputText value="序号"/>
+                            </f:facet>
+                            <h:outputText value="#{item.seq}"/>
+                        </p:column>
+                        <p:column styleClass="Wid30">
+                            <f:facet name="header">
+                                <h:outputText value="问题图片"/>
+                            </f:facet>
+                            <h:outputText value="#{item.imgfile}"/>
+                        </p:column>
+                        <p:column styleClass="Wid60">
+                            <f:facet name="header">
+                                <h:outputText value="问题内容"/>
+                            </f:facet>
+                            <h:outputText value="#{item.content}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:fileUpload id="fileUploadDetail" fileUploadListener="#{questionManagedBean.handleFileUploadWhenDetailEdit}"  styleClass="fileUpload"
+                                  allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx|xls|xlsx)$/" sizeLimit="20000000"
+                                  label="选择" uploadLabel="上传" cancelLabel="取消" update="formOne:tabView:detailimgfile"/>
+                </p:tab>
+            </p:tabView>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

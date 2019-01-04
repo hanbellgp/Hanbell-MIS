@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="formOne">
+            <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:button id="btnReturn" value="返回" outcome="meetingroom" icon="ui-icon-restore"/>
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnSave" value="保存" action="#{meetingRoomManagedBean.update()}" icon="ui-icon-save"
+                                     process="@this,plgHead" update="plgHead"/>
+                </f:facet>
+            </p:toolbar>
+            <p:panelGrid id="plgHead" columns="4" columnClasses="Wid20,Wid30,Wid20,Wid30" styleClass="plgHead Wid100">
+                <f:facet name="header">
+                    会议室－修改
+                </f:facet>
+                <p:outputLabel value="会议室编号" for="name" />
+                <p:inputText id="name" value="#{meetingRoomManagedBean.currentEntity.name}" title="name"
+                             required="true" requiredMessage="请输入会议室编号" disabled="#{meetingRoomManagedBean.currentPrgGrant.sysprg.noauto == !meetingRoomManagedBean.currentPrgGrant.sysprg.nochange}"/>
+                <p:outputLabel value="名称" for="description" />
+                <p:inputText id="description" value="#{meetingRoomManagedBean.currentEntity.description}" title="description"/>
+                <p:outputLabel value="类别编号" for="bookingkind" />
+                <p:inputText id="bookingkind" value="#{meetingRoomManagedBean.currentEntity.kind}" title="Bookingkind" />
+                <p:outputLabel value="排序" for="sortid" />
+                <p:inputText id="sortid" value="#{meetingRoomManagedBean.currentEntity.sortid}" title="Sortid"
+                             required="true" requiredMessage="请输入排序"/>
+                <p:outputLabel value="座位数量" for="seats" />
+                <p:inputText id="seats" value="#{meetingRoomManagedBean.currentEntity.seats}" title="Seats" 
+                             required="true" requiredMessage="请输入座位数量"/>
+                <p:outputLabel value="备注" for="remark" />
+                <p:inputText id="remark" value="#{meetingRoomManagedBean.currentEntity.remark}" title="Remark" />
+            </p:panelGrid>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

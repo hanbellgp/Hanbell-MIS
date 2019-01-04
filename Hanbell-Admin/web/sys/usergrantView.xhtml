@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <h:form id="formOne">
+            <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:button id="btnReturn" value="返回" outcome="usergrant" icon="ui-icon-restore"  />
+                    <p:commandButton id="btnPrev" value="向前" actionListener="#{userGrantManagedBean.toPrev()}" icon="ui-icon-navigate-before"
+                                     process="@this" update="formOne"
+                                     rendered="#{userGrantManagedBean.hasPrev}"/>
+                    <p:commandButton id="btnNext" value="向后" actionListener="#{userGrantManagedBean.toNext()}" icon="ui-icon-navigate-next"
+                                     process="@this" update="formOne"
+                                     rendered="#{userGrantManagedBean.hasNext}"/>
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnVerify" value="审核" action="#{userGrantManagedBean.verify()}" icon="ui-icon-check"
+                                     rendered="#{userGrantManagedBean.doCfm}" process="@this" update="toolbar"/>
+                </f:facet>
+            </p:toolbar>
+            <p:panelGrid id="plgHead" styleClass="plgHead Wid100">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column colspan="4">
+                            用户授权－查看
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column styleClass="Wid20"><h:outputText value="编号"/></p:column>
+                    <p:column styleClass="Wid30">
+                        <h:outputText id="userno" value="#{userGrantManagedBean.currentEntity.userid}" title="userno"/>
+                    </p:column>
+                    <p:column styleClass="Wid20"><h:outputText value="名称"/></p:column>
+                    <p:column styleClass="Wid30">
+                        <h:outputText id="username" value="#{userGrantManagedBean.currentEntity.username}" title="username"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:tabView id="tabView" styleClass="tabView">
+                <p:tab title="模块授权">
+                    <p:panel id="panelDetail">
+                        <p:dataTable id="tableList" value="#{userGrantManagedBean.detailList}" var="item" styleClass="tableList Wid100 Mtop10"
+                                     selectionMode="single" selection="#{userGrantManagedBean.currentDetail}" rowKey="#{item.systemModule}" >
+                            <p:ajax event="rowSelect"  update="" oncomplete="" />
+                            <p:ajax event="rowUnselect"  update="" oncomplete="" />
+                            <p:column styleClass="Wid20">
+                                <f:facet name="header">
+                                    <h:outputText value="系统名称"/>
+                                </f:facet>
+                                <h:outputText value="#{item.systemModule.sysname}"/>
+                            </p:column>
+                            <p:column styleClass="Wid20">
+                                <f:facet name="header">
+                                    <h:outputText value="授权模块"/>
+                                </f:facet>
+                                <h:outputText value="#{item.systemModule.name}"/>
+                            </p:column>
+                            <p:column styleClass="Wid60">
+
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </p:tab>
+                <p:tab title="程序授权">
+                    <p:panel id="panelDetail2">
+                        <p:dataTable id="tableList2" value="#{userGrantManagedBean.detailList2}" var="item" styleClass="tableList Wid100 Mtop10"
+                                     selectionMode="single" selection="#{userGrantManagedBean.currentDetail2}" rowKey="#{item.seq}" >
+                            <p:ajax event="rowSelect"  update="" oncomplete="" />
+                            <p:ajax event="rowUnselect"  update="" oncomplete="" />
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="模块"/>
+                                </f:facet>
+                                <h:outputText value="#{item.sysprg.systemModule.name}"/>
+                            </p:column>
+                            <p:column styleClass="Wid20">
+                                <f:facet name="header">
+                                    <h:outputText value="程序名称"/>
+                                </f:facet>
+                                <h:outputText value="#{item.sysprg.name}"/>
+                            </p:column>
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="新增"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.doadd}" disabled="true"/>
+                            </p:column>
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="修改"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.doedit}" disabled="true"/>
+                            </p:column>
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="删除"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.dodel}" disabled="true"/>
+                            </p:column>
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="打印"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.doprt}" disabled="true"/>
+                            </p:column>
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="审核"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.docfm}" disabled="true"/>
+                            </p:column>
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="还原"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.douncfm}" disabled="true"/>
+                            </p:column>
+                            <p:column styleClass="Wid10">
+                                <f:facet name="header">
+                                    <h:outputText value="特权"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{item.dopriv}" disabled="true"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </p:tab>
+            </p:tabView>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
