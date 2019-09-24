@@ -26,11 +26,7 @@ public class SystemGrantModuleModel extends BaseLazyModel<SystemGrantModule> {
     public List<SystemGrantModule> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         this.sortFields.put("systemUser.userid", "ASC");
         this.sortFields.put("systemModule.sortid", "ASC");
-        return super.load(first, pageSize, sortField, sortOrder, filters); 
+        return super.load(first, pageSize, sortField, sortOrder, filters);
     }
-
-  
-    
-    
 
 }

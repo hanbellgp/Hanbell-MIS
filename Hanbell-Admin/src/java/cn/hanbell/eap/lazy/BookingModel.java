@@ -13,10 +13,10 @@ import com.lightshell.comm.SuperEJB;
  *
  * @author C0160
  */
-public class BookingModel extends BaseLazyModel<Booking>{
-    
-    public BookingModel(SuperEJB superEJB){
+public class BookingModel extends BaseLazyModel<Booking> {
+
+    public BookingModel(SuperEJB superEJB) {
         this.superEJB = superEJB;
     }
-    
+
 }

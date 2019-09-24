@@ -68,3 +68,5 @@ dist/
 nbproject/private
 /build
 /dist
+/Hanbell-Admin/dist
+/Hanbell-Admin/build

@@ -19,7 +19,7 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class DemandscheduleManagedBean extends SuperSingleBean<Demandschedule>{
+public class DemandscheduleManagedBean extends SuperSingleBean<Demandschedule> {
 
     @EJB
     private DemandscheduleBean demandscheduleBean;
@@ -32,24 +32,22 @@ public class DemandscheduleManagedBean extends SuperSingleBean<Demandschedule>{
     public void setQueryProname(String queryProname) {
         this.queryProname = queryProname;
     }
-    
-    public DemandscheduleManagedBean(){
-          super(Demandschedule.class);
+
+    public DemandscheduleManagedBean() {
+        super(Demandschedule.class);
     }
-    
- //   protected List<Demandschedule> entityList;
-    
+
+    //   protected List<Demandschedule> entityList;
 //    @PostConstruct
 //    @Override
 //    public void construct(){
 //         init();
 //    }
-    
-    public void init(){
-        this.superEJB=demandscheduleBean;
-        this.model=new DemandscheduleModel(demandscheduleBean);
+    public void init() {
+        this.superEJB = demandscheduleBean;
+        this.model = new DemandscheduleModel(demandscheduleBean);
     }
-    
+
 //    public List<Demandschedule> getEntityList(){
 //         return entityList;
 //    }
@@ -57,8 +55,4 @@ public class DemandscheduleManagedBean extends SuperSingleBean<Demandschedule>{
 //    public void setEntityList(List<Demandschedule> entityList){
 //         this.entityList=entityList;
 //    }
-    
-   
-    
-    
 }
