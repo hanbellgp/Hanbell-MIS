@@ -7,7 +7,7 @@
 
     <ui:define name="content">
         <h:form id="formOne">
-            <p:growl id="growl" showSummary= "false" autoUpdate = "true"></p:growl>
+            <p:growl id="growl" showSummary= "false"></p:growl>
             <p:toolbar id="toolbar" styleClass="topToolbar">
                 <f:facet name = "left">
                     <p:button id="btnReturn" value ="返回" outcome="issuesList" icon="ui-icon-restore" />
@@ -47,7 +47,7 @@
                                      required="true" requiredMessage="请输入需求部门"/>
                     </p:column>
                 </p:row>
-                 <p:row>
+                <p:row>
                     <p:column styleClass="Wid20"><p:outputLabel value="需求人" for="person" /></p:column>
                     <p:column styleClass="Wid30">
                         <p:inputText id="person" value="#{issuesListManagedBean.newEntity.person}" title="person"
@@ -116,14 +116,14 @@
                 </p:row>
             </p:panelGrid>
             <p:panelGrid id="plgTail"  styleClass="plgTail Wid100">
-                 <p:row>
+                <p:row>
                     <p:column styleClass="Wid20"><p:outputLabel value="附件文件" for="attachment" /></p:column>
                     <p:column styleClass="Wid80"> 
-                           <p:fileUpload id="file" fileUploadListener="#{issuesListManagedBean.handleFileUploadWhenNew}" styleClass="file"
-                           allowTypes="/(\.|\/)(xls|xlsx|docx|pdf)$/" sizeLimit="5000000" label="选择" uploadLabel="上传" cancelLabel="还原" update="attachment"/>
+                        <p:fileUpload id="file" fileUploadListener="#{issuesListManagedBean.handleFileUploadWhenNew}" styleClass="file"
+                                      allowTypes="/(\.|\/)(xls|xlsx|docx|pdf)$/" sizeLimit="5000000" label="选择" uploadLabel="上传" cancelLabel="还原" update="attachment"/>
                     </p:column>
                 </p:row>
-             </p:panelGrid>
+            </p:panelGrid>
         </h:form>
 
     </ui:define>

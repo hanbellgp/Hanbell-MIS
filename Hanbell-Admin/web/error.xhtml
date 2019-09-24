@@ -2,10 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
-    
     <h:head>
         <f:facet name="first">
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -18,18 +16,18 @@
     </h:head>
 
     <h:body styleClass="exception-body error-page">
-    
+
         <div class="exception-type">
             <p:graphicImage name="images/error.svg" library="ultima-layout" />
         </div>
-        
+
         <div class="card exception-panel">
             <i class="material-icons">&#xE000;</i>
             <h1>Exception Occured</h1>
             <div class="exception-detail">Please contact system administrator</div>
             <p:button outcome="/dashboard" value="Homepage" styleClass="secondary"/>
         </div>
-        
+
         <h:outputStylesheet name="css/ripple.css" library="ultima-layout" />
         <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="ultima-layout" />
     </h:body>

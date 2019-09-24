@@ -13,10 +13,10 @@ import com.lightshell.comm.SuperEJB;
  *
  * @author C0160
  */
-public class MeetingRoomModel extends BaseLazyModel<MeetingRoom>{
-    
-    public MeetingRoomModel(SuperEJB superEJB){
+public class MeetingRoomModel extends BaseLazyModel<MeetingRoom> {
+
+    public MeetingRoomModel(SuperEJB superEJB) {
         this.superEJB = superEJB;
     }
-    
+
 }

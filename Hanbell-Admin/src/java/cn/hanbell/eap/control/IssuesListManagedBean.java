@@ -86,12 +86,10 @@ public class IssuesListManagedBean extends SuperSingleBean<IssuesList> {
 
     @Override
     public void handleFileUploadWhenNew(FileUploadEvent event) {
-        super.handleFileUploadWhenNew(event); 
-        if(this.fileName != null && this.newEntity != null){
-             this.newEntity.setFile(fileName);
+        super.handleFileUploadWhenNew(event);
+        if (this.fileName != null && this.newEntity != null) {
+            this.newEntity.setFile(fileName);
         }
     }
-    
-    
 
 }

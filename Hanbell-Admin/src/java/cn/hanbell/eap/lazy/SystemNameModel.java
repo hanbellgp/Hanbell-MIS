@@ -13,10 +13,10 @@ import com.lightshell.comm.SuperEJB;
  *
  * @author C0160
  */
-public class SystemNameModel extends BaseLazyModel<SystemName>{
-    
-    public SystemNameModel(SuperEJB superEJB){
+public class SystemNameModel extends BaseLazyModel<SystemName> {
+
+    public SystemNameModel(SuperEJB superEJB) {
         this.superEJB = superEJB;
     }
-    
+
 }

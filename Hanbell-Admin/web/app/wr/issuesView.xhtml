@@ -31,15 +31,15 @@
                                      rendered="#{proposalManagedBean.doUnCfm}"  update="toolbar">
                         <p:confirm header="系统提示" message="还原吗?" icon="ui-icon-alert" />
                     </p:commandButton>
-                </p:toolbar>
-                </f:facet>
+            </p:toolbar>
+            </f:facet>
             <p:panelGrid id="plgHead"  styleClass="plgHead Wid100">
                 <f:facet name="header">
                     <p:row>
                         <p:column colspan="4">需求清单----查看</p:column>
                     </p:row>
                 </f:facet>
-                  <p:row>
+                <p:row>
                     <p:column styleClass="Wid20"><p:outputLabel value="序号" for="id" /></p:column>
                     <p:column styleClass="Wid30">
                         <p:inputText id="id" value="#{issuesListManagedBean.currentEntity.id}" title="id"
@@ -63,7 +63,7 @@
                                      required="true" requiredMessage="请输入需求部门"/>
                     </p:column>
                 </p:row>
-                 <p:row>
+                <p:row>
                     <p:column styleClass="Wid20"><p:outputLabel value="需求人" for="person" /></p:column>
                     <p:column styleClass="Wid30">
                         <p:inputText id="person" value="#{issuesListManagedBean.currentEntity.person}" title="person"
@@ -132,11 +132,11 @@
                 </p:row>
             </p:panelGrid>
             <p:panelGrid id="plgTail"  styleClass="plgTail Wid100">
-                 <p:row>
+                <p:row>
                     <p:column styleClass="Wid20"><p:outputLabel value="附件文件" for="attachment" /></p:column>
                     <p:column styleClass="Wid80">
-                           <p:fileUpload id="file" fileUploadListener="#{issuesListManagedBean.handleFileUploadWhenNew}" styleClass="file"
-                           allowTypes="/(\.|\/)(xls|xlsx|docx|pdf)$/" sizeLimit="5000000" label="选择" uploadLabel="上传" cancelLabel="还原" update="attachment"/>
+                        <p:fileUpload id="file" fileUploadListener="#{issuesListManagedBean.handleFileUploadWhenNew}" styleClass="file"
+                                      allowTypes="/(\.|\/)(xls|xlsx|docx|pdf)$/" sizeLimit="5000000" label="选择" uploadLabel="上传" cancelLabel="还原" update="attachment"/>
                     </p:column>
                 </p:row>
             </p:panelGrid>

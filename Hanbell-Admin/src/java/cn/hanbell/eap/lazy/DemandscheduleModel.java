@@ -13,10 +13,10 @@ import com.lightshell.comm.SuperEJB;
  *
  * @author Administrator
  */
-public class DemandscheduleModel extends BaseLazyModel<Demandschedule>{
-    
-    public DemandscheduleModel(SuperEJB superEJB){
-          this.superEJB=superEJB;
+public class DemandscheduleModel extends BaseLazyModel<Demandschedule> {
+
+    public DemandscheduleModel(SuperEJB superEJB) {
+        this.superEJB = superEJB;
     }
-    
+
 }
