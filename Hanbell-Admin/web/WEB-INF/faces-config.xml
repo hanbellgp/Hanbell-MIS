@@ -387,9 +387,18 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
-            <description>需求清单</description>
             <from-outcome>issues</from-outcome>
             <to-view-id>/app/wr/issues.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>issuesNew</from-outcome>
+            <to-view-id>/app/wr/issuesNew.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>issuesEdit</from-outcome>
+            <to-view-id>/app/wr/issuesEdit.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
     </navigation-rule>
