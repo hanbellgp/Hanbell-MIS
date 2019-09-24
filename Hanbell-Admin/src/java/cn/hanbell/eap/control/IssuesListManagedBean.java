@@ -11,15 +11,11 @@ import cn.hanbell.eap.entity.IssuesList;
 import cn.hanbell.eap.entity.SystemUser;
 import cn.hanbell.eap.lazy.IssuesListModel;
 import cn.hanbell.eap.web.SuperSingleBean;
-import java.util.Date;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.model.UploadedFile;
 
 /**
  *
