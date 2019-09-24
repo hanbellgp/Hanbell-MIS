@@ -18,8 +18,8 @@ and open the template in the editor.
                 <f:facet name="header">
                     查询条件
                 </f:facet>
-                <h:outputLabel value="需求简称" for="queryName" />
-                <p:inputText id="queryName" value="#{issuesListManagedBean.issuesid}" title="需求简称" />
+                <h:outputLabel value="问题描述" for="queryName" />
+                <p:inputText id="queryName" value="#{issuesListManagedBean.issuesid}" title="问题描述" />
                 <h:outputLabel value="状态" for="status" />
                 <p:selectOneMenu id="status" value="#{issuesListManagedBean.status}" style="width:60%">
                             <f:selectItem itemLabel="未完成" itemValue="N" />
@@ -65,7 +65,7 @@ and open the template in the editor.
             <p:dataTable value="#{issuesListManagedBean.model}" var="item"  tableStyleClass="tableList" paginator="true" paginatorPosition="bottom" rows="15"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="15,30,45"  lazy="true" selectionMode="single" selection="#{issuesListManagedBean.currentEntity}" rowKey="#{item.id}" >
-                <f:facet name="header">需求清单</f:facet>
+                <f:facet name="header">问题清单</f:facet>
                 <p:ajax event="rowSelect"  update=":formList:toolbar" />
                 <p:ajax event="rowUnselect" update=":formList:toolbar" />
                 <p:column styleClass="Wid20">

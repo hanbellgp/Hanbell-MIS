@@ -20,11 +20,11 @@
             <p:panelGrid id="plgHead" styleClass="plgHead Wid100">
                 <f:facet name="header">
                     <p:row>
-                        <p:column colspan="4">需求清单--修改</p:column>
+                        <p:column colspan="4">问题清单--修改</p:column>
                     </p:row>
                 </f:facet>
                 <p:row>
-                    <p:column styleClass="Wid20"><p:outputLabel value="需求简称" for="issuesid" /></p:column>
+                    <p:column styleClass="Wid20"><p:outputLabel value="问题描述" for="issuesid" /></p:column>
                     <p:column styleClass="Wid30">
                         <p:inputText id="issuesid" value="#{issuesListManagedBean.currentEntity.issuesid}" title="Issuesid" required="true" requiredMessage="请输入需求简称"/>
                     </p:column>
@@ -35,10 +35,10 @@
                     </p:column>
                 </p:row>
                 <p:row>
-                    <p:column styleClass="Wid20"><p:outputLabel value="需求部门" for="deptno"/></p:column>
+                    <p:column styleClass="Wid20"><p:outputLabel value="部门代号" for="deptno"/></p:column>
                     <p:column styleClass="Wid30">
                         <p:inputText id="deptno" value="#{issuesListManagedBean.currentEntity.deptno}" title="Deptno"  styleClass="inputWithButton"
-                                     required="true" requiredMessage="请输入需求部门"/>
+                                     required="true" requiredMessage="请输入部门代号"/>
                         <p:commandButton id="btnDepartmentSelect" actionListener="#{issuesListManagedBean.openDialog('departmentSelect')}" icon="ui-icon-extlink"
                                          process="@this" >
                             <p:ajax event="dialogReturn" listener="#{issuesListManagedBean.handleDialogReturnWhenEdit}"
@@ -79,13 +79,13 @@
                     </p:column>
                     <p:column styleClass="Wid20"><p:outputLabel value="负责人姓名" for="principalname" /></p:column>
                     <p:column styleClass="Wid30">
-                        <p:inputText id="principalname" value="#{issuesListManagedBean.currentEntity.principalname}" title="Principalname" requiredMessage="请输入负责人"/>
+                        <p:inputText id="principalname" value="#{issuesListManagedBean.currentEntity.principalname}" title="Principalname"/>
                     </p:column>
                 </p:row>
                 <p:row>
                     <p:column styleClass="Wid20"><p:outputLabel value="阶段" for="phase" /></p:column>
                     <p:column colspan="3">
-                        <p:inputText id="phase" value="#{issuesListManagedBean.currentEntity.phase}" title="Phase" requiredMessage="请输入阶段"/>
+                        <p:inputText id="phase" value="#{issuesListManagedBean.currentEntity.phase}" title="Phase"/>
                     </p:column>
                 </p:row>
                 <p:row>
@@ -141,7 +141,7 @@
                     </p:column>
                 </p:row>
                 <p:row>
-                    <p:column styleClass="Wid20"><p:outputLabel value="需求说明" for="issuesname" /></p:column>
+                    <p:column styleClass="Wid20"><p:outputLabel value="问题说明" for="issuesname" /></p:column>
                     <p:column colspan="3">
                         <p:inputText id="issuesname" value="#{issuesListManagedBean.currentEntity.issuesname}" title="Issuesname" required="true" requiredMessage="请输入需求说明"/>
                     </p:column>

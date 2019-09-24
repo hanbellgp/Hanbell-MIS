@@ -387,6 +387,7 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
+            <description>问题清单</description>
             <from-outcome>issues</from-outcome>
             <to-view-id>/app/wr/issues.xhtml</to-view-id>
             <redirect/>
