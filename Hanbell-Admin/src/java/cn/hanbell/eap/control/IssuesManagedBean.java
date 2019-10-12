@@ -5,12 +5,15 @@
  */
 package cn.hanbell.eap.control;
 
-import cn.hanbell.eap.ejb.IssuesListBean;
+import cn.hanbell.eap.ejb.IssuesBean;
 import cn.hanbell.eap.entity.Department;
-import cn.hanbell.eap.entity.IssuesList;
+import cn.hanbell.eap.entity.Issues;
 import cn.hanbell.eap.entity.SystemUser;
-import cn.hanbell.eap.lazy.IssuesListModel;
+import cn.hanbell.eap.lazy.IssuesModel;
 import cn.hanbell.eap.web.SuperSingleBean;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -21,22 +24,24 @@ import org.primefaces.event.SelectEvent;
  *
  * @author C1749
  */
-@ManagedBean(name = "issuesListManagedBean")
+@ManagedBean(name = "issuesManagedBean")
 @SessionScoped
-public class IssuesListManagedBean extends SuperSingleBean<IssuesList> {
+public class IssuesManagedBean extends SuperSingleBean<Issues> {
 
     @EJB
-    private IssuesListBean issuesListBean;
+    private IssuesBean issuesBean;
+    private String issueNumber;//单号
+    private String systemType;//所属系统
+    private String moduleType;//所属模块
     private String issuesid;//需求名称
-    private String issuesname;//需求名称
     private String deptno;//部门代号
     private String deptname;//部门名称
     private String neederid;//需求id
     private String needername;//需求人名称
     private String status;//状态
 
-    public IssuesListManagedBean() {
-        super(IssuesList.class);
+    public IssuesManagedBean() {
+        super(Issues.class);
     }
 
     @Override
@@ -46,15 +51,15 @@ public class IssuesListManagedBean extends SuperSingleBean<IssuesList> {
 
     @Override
     public void init() {
+        this.issueNumber = "";
         this.issuesid = "";
-        this.issuesname = "";
         this.deptno = "";
         this.deptname = "";
         this.neederid = "";
         this.needername = "";
         this.status = "N";
-        this.superEJB = issuesListBean;
-        model = new IssuesListModel(issuesListBean);
+        this.superEJB = issuesBean;
+        model = new IssuesModel(issuesBean);
         super.init();
     }
 
@@ -62,11 +67,17 @@ public class IssuesListManagedBean extends SuperSingleBean<IssuesList> {
     public void query() {
         if (this.model != null && this.model.getFilterFields() != null) {
             this.model.getFilterFields().clear();
+            if (issueNumber != null && !"".equals(issueNumber)) {
+                this.model.getFilterFields().put("issuenumber", issueNumber);
+            }
+            if (systemType != null && !"".equals(systemType)) {
+                this.model.getFilterFields().put("systemtype", systemType);
+            }
+            if (moduleType != null && !"".equals(moduleType)) {
+                this.model.getFilterFields().put("moduletype", moduleType);
+            }
             if (issuesid != null && !"".equals(issuesid)) {
                 this.model.getFilterFields().put("issuesid", issuesid);
-            }
-            if (issuesname != null && !"".equals(issuesname)) {
-                this.model.getFilterFields().put("issuesname", issuesname);
             }
             if (deptno != null && !"".equals(deptno)) {
                 this.model.getFilterFields().put("deptno", deptno);
@@ -84,6 +95,20 @@ public class IssuesListManagedBean extends SuperSingleBean<IssuesList> {
                 this.model.getFilterFields().put("status", status);
             }
         }
+    }
+
+    @Override
+    public void persist() {
+        super.persist(); //To change body of generated methods, choose Tools | Templates.
+        //暂时自动生成单号
+        if (newEntity != null) {
+            newEntity.setIssuenumber(getIssueNumberForDate());
+        }
+    }
+
+    private static String getIssueNumberForDate() {
+        DateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+        return "PL"+sdf.format(new Date());
     }
 
     @Override
@@ -156,12 +181,12 @@ public class IssuesListManagedBean extends SuperSingleBean<IssuesList> {
         }
     }
 
-    public IssuesListBean getIssuesListBean() {
-        return issuesListBean;
+    public IssuesBean getIssuesBean() {
+        return issuesBean;
     }
 
-    public void setIssuesListBean(IssuesListBean issuesListBean) {
-        this.issuesListBean = issuesListBean;
+    public void setIssuesBean(IssuesBean issuesBean) {
+        this.issuesBean = issuesBean;
     }
 
     public String getIssuesid() {
@@ -170,14 +195,6 @@ public class IssuesListManagedBean extends SuperSingleBean<IssuesList> {
 
     public void setIssuesid(String issuesid) {
         this.issuesid = issuesid;
-    }
-
-    public String getIssuesname() {
-        return issuesname;
-    }
-
-    public void setIssuesname(String issuesname) {
-        this.issuesname = issuesname;
     }
 
     public String getDeptno() {
@@ -219,5 +236,30 @@ public class IssuesListManagedBean extends SuperSingleBean<IssuesList> {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getIssueNumber() {
+        return issueNumber;
+    }
+
+    public void setIssueNumber(String issueNumber) {
+        this.issueNumber = issueNumber;
+    }
+
+    public String getSystemType() {
+        return systemType;
+    }
+
+    public void setSystemType(String systemType) {
+        this.systemType = systemType;
+    }
+
+    public String getModuleType() {
+        return moduleType;
+    }
+
+    public void setModuleType(String moduleType) {
+        this.moduleType = moduleType;
+    }
+    
 
 }

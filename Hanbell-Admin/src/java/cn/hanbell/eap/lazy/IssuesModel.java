@@ -5,7 +5,7 @@
  */
 package cn.hanbell.eap.lazy;
 
-import cn.hanbell.eap.entity.IssuesList;
+import cn.hanbell.eap.entity.Issues;
 import com.lightshell.comm.BaseLazyModel;
 import com.lightshell.comm.SuperEJB;
 
@@ -13,9 +13,9 @@ import com.lightshell.comm.SuperEJB;
  *
  * @author C1749
  */
-public class IssuesListModel extends BaseLazyModel<IssuesList> {
+public class IssuesModel extends BaseLazyModel<Issues> {
 
-    public IssuesListModel(SuperEJB superEJB) {
+    public IssuesModel(SuperEJB superEJB) {
         this.superEJB = superEJB;
     }
 }
