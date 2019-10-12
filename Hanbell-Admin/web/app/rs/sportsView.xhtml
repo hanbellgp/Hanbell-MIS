@@ -26,7 +26,7 @@
 
         <h:form id="formOne">
             <div style="margin-top: 40px"><h1 style="text-align: center;font-size: 22pt">2018 汉钟精机22周年厂庆运动会团体成绩表<p:link value="返回" outcome="sports" style="float: right"/></h1></div>
-            <p:growl id="growl" showSummary="false" showDetail="true" autoUpdate="true"/>
+            <p:growl id="growl" showSummary="false" showDetail="true"/>
             <p:panel id="panelList">
                 <p:dataTable id="tblList" value="#{sportsManagedBean.model}" var="item" paginator="true" paginatorPosition="bottom" rows="15"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
