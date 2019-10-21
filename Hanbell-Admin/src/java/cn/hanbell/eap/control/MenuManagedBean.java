@@ -20,6 +20,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
@@ -52,13 +53,14 @@ public class MenuManagedBean implements Serializable {
     private List<SystemRoleDetail> roleList;
 
     private MenuModel model;
+    private String systemName;
 
     public MenuManagedBean() {
     }
 
     @PostConstruct
     public void init() {
-
+        systemName = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("cn.hanbell.web.system");
         boolean flag;
         moduleGrantList = new ArrayList<>();
         prgGrantList = new ArrayList<>();
@@ -82,18 +84,18 @@ public class MenuManagedBean implements Serializable {
             appmenu.setIcon("menu");
             //将用户权限和角色权限合并后产生菜单,用户权限优先角色权限
             moduleGrantList.clear();
-            userModuleGrantList = systemGrantModuleBean.findBySystemNameAndUserId("EAP", userManagedBean.getCurrentUser().getId());
+            userModuleGrantList = systemGrantModuleBean.findBySystemNameAndUserId(systemName, userManagedBean.getCurrentUser().getId());
             userModuleGrantList.forEach((m) -> {
                 moduleGrantList.add(m);
             });
             prgGrantList.clear();
-            userPrgGrantList = systemGrantPrgBean.findBySystemNameAndUserId("EAP", userManagedBean.getCurrentUser().getId());
+            userPrgGrantList = systemGrantPrgBean.findBySystemNameAndUserId(systemName, userManagedBean.getCurrentUser().getId());
             userPrgGrantList.forEach((p) -> {
                 prgGrantList.add(p);
             });
             roleList = systemRoleDetailBean.findByUserId(userManagedBean.getCurrentUser().getId());
             for (SystemRoleDetail r : roleList) {
-                roleModuleGrantList = systemGrantModuleBean.findBySystemNameAndRoleId("EAP", r.getPid());
+                roleModuleGrantList = systemGrantModuleBean.findBySystemNameAndRoleId(systemName, r.getPid());
                 if (moduleGrantList.isEmpty()) {
                     moduleGrantList.addAll(roleModuleGrantList);
                 } else {
@@ -110,7 +112,7 @@ public class MenuManagedBean implements Serializable {
                         }
                     }
                 }
-                rolePrgGrantList = systemGrantPrgBean.findBySystemNameAndRoleId("EAP", r.getPid());
+                rolePrgGrantList = systemGrantPrgBean.findBySystemNameAndRoleId(systemName, r.getPid());
                 if (prgGrantList.isEmpty()) {
                     prgGrantList.addAll(rolePrgGrantList);
                 } else {
