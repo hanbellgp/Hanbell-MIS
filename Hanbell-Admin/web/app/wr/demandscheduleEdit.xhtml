@@ -7,72 +7,184 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
-
-
-
         <h:form id="formOne">
-            <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />
+            <p:growl id="growl"  showSummary="false" showDetail="true"/>
             <p:toolbar id="toolbar" styleClass="topToolbar">
                 <f:facet name="left">
                     <p:button id="btnReturn" value="返回" outcome="demandschedule" icon="ui-icon-restore"/>
                 </f:facet>
                 <f:facet name="right">
-                    <p:commandButton id="btnSave" value="保存" action="#{demandscheduleManagedBean.persist()}" icon="ui-icon-save"
-                                     process="@this,panel" update="panel"/>
+                    <p:commandButton id="btnSave" value="保存" action="#{demandsManagedBean.update()}" icon="ui-icon-save"
+                                     process="@this,plgHead" update=":formOne"/>
                 </f:facet>
-            </p:toolbar>  
-            <h1><h:outputText value="Create/Edit"/></h1>
-            <p:panelGrid  id="panel" columns="2">
-                <p:outputLabel value="Systemname:" for="systemname" />
-                <p:inputText id="systemname" value="#{demandscheduleManagedBean.currentEntity.systemname}" title="Systemname"/>
-                <p:outputLabel value="Requestdescript:" for="requestdescript" />
-                <p:inputText id="requestdescript" value="#{demandscheduleManagedBean.currentEntity.requestdescript}" title="Requestdescript"/>
-                <p:outputLabel value="Briefrequestscript:" for="briefrequestscript" />
-                <p:inputText id="briefrequestscript" value="#{demandscheduleManagedBean.currentEntity.briefrequestscript}" title="Briefrequestscript" />
-                <p:outputLabel value="Applydept:" for="applydept" />
-                <p:inputText id="applydept" value="#{demandscheduleManagedBean.currentEntity.applydept}" title="Applydept" />
-                <p:outputLabel value="Applyuser:" for="applyuser" />
-                <p:inputText id="applyuser" value="#{demandscheduleManagedBean.currentEntity.applyuser}" title="Applyuser" />
-                <p:outputLabel value="Applytime:" for="applytime" />
-                <p:inputText id="applytime" value="#{demandscheduleManagedBean.currentEntity.applytime}" title="Applytime" />
-                <p:outputLabel value="Planfinishtime:" for="planfinishtime" />
-                <p:inputText id="planfinishtime" value="#{demandscheduleManagedBean.currentEntity.planfinishtime}" title="Planfinishtime" >
-                </p:inputText>
-                <p:outputLabel value="Steptime:" for="steptime" />
-                <p:inputText id="steptime" value="#{demandscheduleManagedBean.currentEntity.steptime}" title="Steptime" />
-                <p:outputLabel value="Chargedept:" for="chargedept" />
-                <p:inputText id="chargedept" value="#{demandscheduleManagedBean.currentEntity.chargedept}" title="Chargedept" />
-                <p:outputLabel value="Finishstatus:" for="finishstatus" />
-                <p:inputText id="finishstatus" value="#{demandscheduleManagedBean.currentEntity.finishstatus}" title="Finishstatus" />
-                <p:outputLabel value="Chargedeptremark:" for="chargedeptremark" />
-                <p:inputText id="chargedeptremark" value="#{demandscheduleManagedBean.currentEntity.chargedeptremark}" title="Chargedeptremark" />
-                <p:outputLabel value="Applydeptremark:" for="applydeptremark" />
-                <p:inputText id="applydeptremark" value="#{demandscheduleManagedBean.currentEntity.applydeptremark}" title="Applydeptremark" >
-                </p:inputText>
-                <p:outputLabel value="Requeststate:" for="requeststate" />
-                <p:inputText id="requeststate" value="#{demandscheduleManagedBean.currentEntity.requeststate}" title="Requeststate" >
-                </p:inputText>
-                <p:outputLabel value="Status:" for="status" />
-                <p:inputText id="status" value="#{demandscheduleManagedBean.currentEntity.status}" title="Status" />
-                <p:outputLabel value="Creator:" for="creator" />
-                <p:inputText id="creator" value="#{demandscheduleManagedBean.currentEntity.creator}" title="Creator" />
-                <p:outputLabel value="Credate:" for="credate" />
-                <p:inputText id="credate" value="#{demandscheduleManagedBean.currentEntity.credate}" title="Credate" >
-                </p:inputText>
-                <p:outputLabel value="Optuser:" for="optuser" />
-                <p:inputText id="optuser" value="#{demandscheduleManagedBean.currentEntity.optuser}" title="Optuser" />
-                <p:outputLabel value="Optdate:" for="optdate" />
-                <p:inputText id="optdate" value="#{demandscheduleManagedBean.currentEntity.optdate}" title="Optdate" >
-                </p:inputText>
-                <p:outputLabel value="Cfmuser:" for="cfmuser" />
-                <p:inputText id="cfmuser" value="#{demandscheduleManagedBean.currentEntity.cfmuser}" title="Cfmuser" />
-                <p:outputLabel value="Cfmdate:" for="cfmdate" />
-                <p:inputText id="cfmdate" value="#{demandscheduleManagedBean.currentEntity.cfmdate}" title="Cfmdate" >
-                </p:inputText>
+            </p:toolbar>
+            <p:panelGrid id="plgHead"  styleClass="plgHead Wid100">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column colspan="4">编辑</p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column styleClass="Wid20"><p:outputLabel value="预约编号" for="oid" /></p:column>
+                    <p:column styleClass="Wid30">
+                        <h:outputText id="oid" value="#{demandsManagedBean.currentEntity.oid}" title="oid"/>
+                    </p:column>
+                    <p:column><p:outputLabel value="入库编号" for="formid" /></p:column>
+                    <p:column>
+                        <h:outputText id="formid" value="#{demandsManagedBean.currentEntity.formid}" title="formid" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="需求简介" for="demandsResume" /></p:column>
+                    <p:column>
+                        <p:inputText id="demandsResume" value="#{demandsManagedBean.currentEntity.demandsResume}" title="demandsResume" />
+                    </p:column>
+                    <p:column><p:outputLabel value="需求描述" for="demandContent" /></p:column>
+                    <p:column>
+                        <p:inputText id="demandContent" value="#{demandsManagedBean.currentEntity.demandContent}" title="demandContent" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column styleClass="Wid20"><p:outputLabel value="填写人代号" for="writerID" /></p:column>
+                    <p:column styleClass="Wid30">
+                        <p:inputText id="writerID" value="#{demandsManagedBean.currentEntity.writerID}" title="writerID" styleClass="inputWithButton"
+                                     required="true" requiredMessage="请输入填写人员"/>
+                        <p:commandButton id="btnSystemNeederSelectwriterID" actionListener="#{demandsManagedBean.openDialog('sysuserSelect')}" icon="ui-icon-extlink"
+                                         process="@this" >
+                            <p:ajax event="dialogReturn" listener="#{demandsManagedBean.handleDialogReturnUserWhenWriteNameEdit}"
+                                    process="@this" update="writerName,writerID" />
+                        </p:commandButton>
+                    </p:column>
+                    <p:column styleClass="Wid20"><p:outputLabel value="填写人姓名" for="writerName" /></p:column>
+                    <p:column styleClass="Wid30">
+                        <h:outputText id="writerName" value="#{demandsManagedBean.currentEntity.writerName}" title="writerName"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column styleClass="Wid20"><p:outputLabel value="需求人代号" for="demandNameID" /></p:column>
+                    <p:column styleClass="Wid30">
+                        <p:inputText id="demandNameID" value="#{demandsManagedBean.currentEntity.demandNameID}" title="demandNameID" styleClass="inputWithButton"
+                                     required="true" requiredMessage="请输入需求需求人员"/>
+                        <p:commandButton id="btnSystemNeederSelectdemandNameID" actionListener="#{demandsManagedBean.openDialog('sysuserSelect')}" icon="ui-icon-extlink"
+                                         process="@this" >
+                            <p:ajax event="dialogReturn" listener="#{demandsManagedBean.handleDialogReturnUserWhenDetailNeederEdit}"
+                                    process="@this" update="demandName,demandNameID" />
+                        </p:commandButton>
+                    </p:column>
+                    <p:column styleClass="Wid20"><p:outputLabel value="需求人姓名" for="demandName" /></p:column>
+                    <p:column styleClass="Wid30">
+                        <h:outputText id="demandName" value="#{demandsManagedBean.currentEntity.demandName}" title="demandName" />
+                    </p:column>
+                </p:row>
+                 <p:row>
+                    <p:column styleClass="Wid20"><p:outputLabel value="需求部门代号" for="demandDeptno" /></p:column>
+                    <p:column styleClass="Wid30">
+                        <p:inputText id="demandDeptno" value="#{demandsManagedBean.currentEntity.demandDeptno}" title="demandDeptno" styleClass="inputWithButton"
+                                     required="true" requiredMessage="请输入部门代号"/>
+                        <p:commandButton id="btnDepartmentSelectdemandDeptno" actionListener="#{demandsManagedBean.openDialog('departmentSelect')}" icon="ui-icon-extlink"
+                                         process="@this" >
+                            <p:ajax event="dialogReturn" listener="#{demandsManagedBean.handleDialogReturnWhenEdit}"
+                                    update="demandDeptno,demandDeptName" />
+                        </p:commandButton>
+                    </p:column>
+                    <p:column styleClass="Wid20"><p:outputLabel value="需求部门名称" for="demandDeptName" /></p:column>
+                    <p:column styleClass="Wid30">
+                        <h:outputText id="demandDeptName" value="#{demandsManagedBean.currentEntity.demandDeptName}" title="demandDeptName"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="需求时间" for="demandDate" /></p:column>
+                    <p:column>
+<!--                        <p:inputText id="demandDate" value="#{demandsManagedBean.currentEntity.demandDate}" title="demandDate">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </p:inputText>-->
+                         <p:calendar id="demandDate" value="#{demandsManagedBean.currentEntity.demandDate}" title="demandDate"
+                                    pattern="yyyy/MM/dd" required="false">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </p:calendar>
+                    </p:column>
+                    <p:column><p:outputLabel value="需求程序" for="procedureName" /></p:column>
+                    <p:column>
+                        <p:inputText id="procedureName" value="#{demandsManagedBean.currentEntity.procedureName}" title="procedureName" />
+                    </p:column>  
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="服务系统" for="systemName" /></p:column>
+                    <p:column>
+                        <p:inputText id="systemName" value="#{demandsManagedBean.currentEntity.systemName}" title="systemName" />
+                    </p:column>
+                    <p:column><p:outputLabel value="服务模块" for="modulName" /></p:column>
+                    <p:column>
+                        <p:inputText id="modulName" value="#{demandsManagedBean.currentEntity.modulName}" title="modulName" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="附件" for="appendix" /></p:column>
+                    <p:column>
+                        <p:selectOneMenu id="appendix" value="#{demandsManagedBean.currentEntity.appendix}" title="appendix" >
+                            <f:selectItem itemLabel="有" itemValue="1"/>
+                            <f:selectItem itemLabel="没有" itemValue="2"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column><p:outputLabel value="状态码" for="status" /></p:column>
+                    <p:column>
+                        <p:selectOneMenu id="status" value="#{demandsManagedBean.currentEntity.status}" title="status" >
+                            <f:selectItem itemLabel="未完成" itemValue="N"/>
+                            <f:selectItem itemLabel="完成" itemValue="Y"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+                 <p:row>
+                    <p:column styleClass="Wid20"><p:outputLabel value="负责人" for="directorID" /></p:column>
+                    <p:column styleClass="Wid30">
+                        <p:inputText id="directorID" value="#{demandsManagedBean.currentEntity.directorID}" title="directorID" styleClass="inputWithButton"
+                                     required="true" requiredMessage="请输入负责人人员"/>
+                        <p:commandButton id="btnSystemNeederSelect" actionListener="#{demandsManagedBean.openDialog('sysuserSelect')}" icon="ui-icon-extlink"
+                                         process="@this" >
+                            <p:ajax event="dialogReturn" listener="#{demandsManagedBean.handleDialogReturnUserWhenDetailprincipalEdit}"
+                                    process="@this" update="directorName,directorID" />
+                        </p:commandButton>
+                    </p:column>
+                    <p:column styleClass="Wid20"><p:outputLabel value="负责人姓名" for="directorName" /></p:column>
+                    <p:column styleClass="Wid30">
+                        <h:outputText id="directorName" value="#{demandsManagedBean.currentEntity.directorName}"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="预计开始时间" for="planStartDate" /></p:column>
+                    <p:column>
+                        <p:calendar id="planStartDate" value="#{demandsManagedBean.currentEntity.planStartDate}" title="planStartDate"
+                                    pattern="yyyy/MM/dd" required="false" >
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </p:calendar>
+                    </p:column>
+                    <p:column><p:outputLabel value="预计结束时间" for="planEndDate" /></p:column>
+                    <p:column>
+                        <p:calendar id="planEndDate" value="#{demandsManagedBean.currentEntity.planEndDate}" title="planEndDate"
+                                    pattern="yyyy/MM/dd" required="false" requiredMessage="请输入开始日期">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </p:calendar>
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column><p:outputLabel value="实际开始时间" for="realStartDate" /></p:column>
+                    <p:column>
+                        <p:calendar id="realStartDate" value="#{demandsManagedBean.currentEntity.realStartDate}" title="realStartDate"
+                                    pattern="yyyy/MM/dd" required="false">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </p:calendar>
+                    </p:column>
+                    <p:column><p:outputLabel value="实际结束时间" for="realOverDate" /></p:column>
+                    <p:column>
+                        <p:calendar id="realOverDate" value="#{demandsManagedBean.currentEntity.realOverDate}" title="realOverDate"
+                                    pattern="yyyy/MM/dd" required="false" >
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </p:calendar>
+                    </p:column>
+                </p:row>
+                
             </p:panelGrid>
         </h:form>
-
-
     </ui:define>
-
 </ui:composition>

@@ -18,20 +18,32 @@ and open the template in the editor.
                 <f:facet name="header">
                     查询条件
                 </f:facet>
-                <h:outputLabel value="单号" for="issueNumber" />
-                <p:inputText id="issueNumber" value="#{issuesManagedBean.issueNumber}" title="单号" />
+                <h:outputLabel value="单号" for="formid" />
+                <p:inputText id="formid" value="#{issuesManagedBean.formid}" title="单号" />
                 <h:outputLabel value="状态" for="status" />
                 <p:selectOneMenu id="status" value="#{issuesManagedBean.status}" style="width:60%">
+                    <f:selectItem itemLabel="全部" itemValue="ALL" />
                     <f:selectItem itemLabel="未完成" itemValue="N" />
                     <f:selectItem itemLabel="已完成" itemValue="Y" />
-                    <f:selectItem itemLabel="待确认" itemValue="D" />
+<!--                    <f:selectItem itemLabel="待确认" itemValue="D" />
                     <f:selectItem itemLabel="取消" itemValue="W" />
-                    <f:selectItem itemLabel="暂缓" itemValue="Z" />
+                    <f:selectItem itemLabel="暂缓" itemValue="Z" />-->
                 </p:selectOneMenu>
                 <h:outputLabel value="所属系统" for="systemType" />
                 <p:inputText id="systemType" value="#{issuesManagedBean.systemType}" title="所属系统" />
-                <h:outputLabel value="所属模块" for="moduleType" />
-                <p:inputText id="moduleType" value="#{issuesManagedBean.moduleType}" title="所属模块" />
+                <h:outputLabel value="问题类型" for="issuestype" />
+                <p:selectOneMenu id="issuestype" value="#{issuesManagedBean.issuestype}" style="width:60%">
+                    <f:selectItem itemLabel="全部" itemValue="ALL" />
+                    <f:selectItem itemLabel="表单问题" itemValue="表单问题" />
+                    <f:selectItem itemLabel="操作问题" itemValue="操作问题" />
+                    <f:selectItem itemLabel="程式问题" itemValue="程式问题" />
+                    <f:selectItem itemLabel="程序问题" itemValue="程序问题" />
+                    <f:selectItem itemLabel="设置问题" itemValue="设置问题" />
+                    <f:selectItem itemLabel="系统问题" itemValue="系统问题" />
+                    <f:selectItem itemLabel="资料问题" itemValue="资料问题" />
+                    <f:selectItem itemLabel="作业问题" itemValue="作业问题" />
+                    <f:selectItem itemLabel="其他问题" itemValue="其他问题" />
+                </p:selectOneMenu>
                 <h:outputLabel value="需求人代号" for="dept" />
                 <p:inputText id="neederid" value="#{issuesManagedBean.neederid}" title="需求人代号" />
                 <h:outputLabel value="需求人姓名" for="dept" />
@@ -40,19 +52,22 @@ and open the template in the editor.
             <p:toolbar id="toolbar" styleClass="topToolbar">
                 <f:facet name="left">
                     <p:commandButton id="btnLoad" value="刷新" actionListener="#{issuesManagedBean.init()}"  icon="ui-icon-sync"  update=":formList"/>
+                    <p:commandButton id="print" value="导出" actionListener="#{issuesManagedBean.print()}"  icon="ui-icon-print" update=":formList"/>
                 </f:facet>
                 <f:facet name="right">
                     <p:splitButton id="btnOperate" value="操作" icon="ui-icon-menu">
+                        <p:menuitem id="btnView" action="#{issuesManagedBean.view('issuesView')}" icon="ui-icon-document" value="查看"
+                                    rendered="#{issuesManagedBean.currentEntity.status!='ALL'}" />
                         <p:menuitem id="btnEdit" action="#{issuesManagedBean.edit('issuesEdit')}" icon="ui-icon-pencil" value="编辑"
                                     rendered="#{issuesManagedBean.currentEntity.status!='V'}" />
                         <p:menuitem id="btnDelete" actionListener="#{issuesManagedBean.delete()}" icon="ui-icon-trash" value="删除"
                                     rendered="#{issuesManagedBean.currentEntity.status!='V' }" update=":formList">
                             <p:confirm header="系统提示" message="删除吗?" icon="ui-icon-alert" />
                         </p:menuitem>
-                        <p:menuitem id="btnVerify" actionListener="#{issuesManagedBean.verify()}" icon="ui-icon-check" value="审核"
+<!--                        <p:menuitem id="btnVerify" actionListener="#{issuesManagedBean.verify()}" icon="ui-icon-check" value="审核"
                                     rendered="#{issuesManagedBean.currentEntity.status!='V'}"   update=":formList"/>
                         <p:menuitem id="btnUnverify" actionListener="#{issuesManagedBean.unverify()}" icon="ui-icon-lock-open" value="还原"
-                                    rendered="#{issuesManagedBean.currentEntity.status=='V'}"  update=":formList"/>
+                                    rendered="#{issuesManagedBean.currentEntity.status=='V'}"  update=":formList"/>-->
                         <p:menuitem id="btnCreate" action="#{issuesManagedBean.create('issuesNew')}" icon="ui-icon-plus" value="新增"
                                     process="@this"  />
                     </p:splitButton>
@@ -64,15 +79,21 @@ and open the template in the editor.
             </p:toolbar>
             <p:dataTable value="#{issuesManagedBean.model}" var="item"  tableStyleClass="tableList" paginator="true" paginatorPosition="bottom" rows="15"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         rowsPerPageTemplate="15,30,45"  lazy="true" selectionMode="single" selection="#{issuesManagedBean.currentEntity}" rowKey="#{item.id}" >
+                         rowsPerPageTemplate="15,30,45"  lazy="true" selectionMode="single" selection="#{issuesManagedBean.currentEntity}" rowKey="#{item.id}" rowIndexVar="rowIndex">
                 <f:facet name="header">问题清单</f:facet>
                 <p:ajax event="rowSelect"  update=":formList:toolbar" />
                 <p:ajax event="rowUnselect" update=":formList:toolbar" />
+                 <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="序列号"/>
+                        </f:facet>
+                        <h:outputText value="#{rowIndex+1}"/>
+                    </p:column>
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="单号"/>
                     </f:facet>
-                    <h:outputText value="#{item.issuenumber}"/>
+                    <h:outputText value="#{item.formid}"/>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
@@ -82,9 +103,15 @@ and open the template in the editor.
                 </p:column>
                 <p:column>
                     <f:facet name="header">
-                        <h:outputText value="需求简称"/>
+                        <h:outputText value="问题简称"/>
                     </f:facet>
-                    <h:outputText value="#{item.issuesid}"/>
+                    <h:outputText value="#{item.issuesContent}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="问题类型"/>
+                    </f:facet>
+                    <h:outputText value="#{item.issuestype}"/>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
@@ -94,7 +121,7 @@ and open the template in the editor.
                 </p:column>
                 <p:column>
                     <f:facet name="header">
-                        <h:outputText value="需求人名称"/>
+                        <h:outputText value="填写人名称"/>
                     </f:facet>
                     <h:outputText value="#{item.needername}"/>
                 </p:column>
@@ -108,7 +135,7 @@ and open the template in the editor.
                     <f:facet name="header">
                         <h:outputText value="提出时间"/>
                     </f:facet>
-                    <h:outputText value="#{item.createtime}">
+                    <h:outputText value="#{item.formdate}">
                         <f:convertDateTime pattern="yyyy/MM/dd"/>
                     </h:outputText>
                 </p:column>
@@ -116,7 +143,7 @@ and open the template in the editor.
                     <f:facet name="header">
                         <h:outputText value="完成时间"/>
                     </f:facet>
-                    <h:outputText value="#{item.endtime}">
+                    <h:outputText value="#{item.overtime}">
                         <f:convertDateTime pattern="yyyy/MM/dd"/>
                     </h:outputText>
                 </p:column>
@@ -137,9 +164,9 @@ and open the template in the editor.
                 <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
             </p:confirmDialog>
-            <p:blockUI id="blockUI" block="formList" trigger="btnUnverify">
+<!--            <p:blockUI id="blockUI" block="formList" trigger="btnUnverify">
                 <p:graphicImage name="images/ajaxloadingbar.gif" library="ultima-layout"/>
-            </p:blockUI>
+            </p:blockUI>-->
         </h:form>
     </ui:define>
 </ui:composition>
