@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="formOne">
+            <p:growl id="growl"  showSummary="false" showDetail="true" />
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:button id="btnReturn" value="返回" outcome="demandschedule" icon="ui-icon-restore"/>
+                    <p:commandButton id="btnPrev" value="向前" actionListener="#{demandsManagedBean.toPrev()}" icon="ui-icon-navigate-before"
+                                     rendered="#{demandsManagedBean.hasPrev}" process="@this" update="formOne" />
+                    <p:commandButton id="btnNext" value="向后" actionListener="#{demandsManagedBean.toNext()}" icon="ui-icon-navigate-next"
+                                     rendered="#{demandsManagedBean.hasNext}" process="@this" update="formOne" />
+                </f:facet>
+                <f:facet name="right">
+<!--                    <p:commandButton id="btnVerify" value="审核" action="#{demandsManagedBean.verify()}" icon="ui-icon-check"
+                                     rendered="#{demandsManagedBean.doCfm}" update="toolbar"/>-->
+                </f:facet>
+            </p:toolbar>
+            <p:panelGrid id="plgHead" styleClass="plgHead Wid100">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column colspan="4">查看</p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column styleClass="Wid20"><p:outputLabel value="预约编号" for="oid" /></p:column>
+                    <p:column styleClass="Wid30">
+                        <h:outputText id="oid" value="#{demandsManagedBean.currentEntity.oid}" title="oid"/>
+                    </p:column>
+                    <p:column styleClass="Wid20"><p:outputLabel value="预约内容" for="bookingKind" /></p:column>
+                    <p:column styleClass="Wid30">
+                        <h:outputText id="bookingKind" value="#{demandsManagedBean.currentEntity.writerName}" title="bookingKind" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="入库编号" for="formid" /></p:column>
+                    <p:column>
+                        <h:outputText id="formid" value="#{demandsManagedBean.currentEntity.formid}" title="formid" />
+                    </p:column>
+                    <p:column><p:outputLabel value="需求简介" for="demandsResume" /></p:column>
+                    <p:column>
+                        <h:outputText id="demandsResume" value="#{demandsManagedBean.currentEntity.demandsResume}" title="demandsResume" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="填报工号" for="writerID" /></p:column>
+                    <p:column>
+                        <h:outputText id="writerID" value="#{demandsManagedBean.currentEntity.writerID}" title="writerID" />
+                    </p:column>
+                    <p:column><p:outputLabel value="填报人" for="writerName" /></p:column>
+                    <p:column>
+                        <h:outputText id="writerName" value="#{demandsManagedBean.currentEntity.writerName}" title="writerName" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="填报时间" for="writeDate" /></p:column>
+                    <p:column>
+                        <h:outputText id="writeDate" value="#{demandsManagedBean.currentEntity.writeDate}" title="writeDate">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column><p:outputLabel value="需求部门" for="demandDeptno" /></p:column>
+                    <p:column>
+                        <h:outputText id="demandDeptno" value="#{demandsManagedBean.currentEntity.demandDeptno}" title="systemName" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="需求人工号" for="demandNameID" /></p:column>
+                    <p:column>
+                        <h:outputText id="demandNameID" value="#{demandsManagedBean.currentEntity.demandNameID}" title="demandNameID" />
+                    </p:column>
+                    <p:column><p:outputLabel value="需求人" for="demandName" /></p:column>
+                    <p:column>
+                        <h:outputText id="demandName" value="#{demandsManagedBean.currentEntity.demandName}" title="demandName" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="需求时间" for="writeDate" /></p:column>
+                    <p:column>
+                        <h:outputText id="demandDate" value="#{demandsManagedBean.currentEntity.demandDate}" title="demandDate">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column><p:outputLabel value="需求介绍" for="demandContent" /></p:column>
+                    <p:column>
+                        <h:outputText id="demandContent" value="#{demandsManagedBean.currentEntity.demandContent}" title="demandContent" />
+                    </p:column>  
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="附件" for="appendix" /></p:column>
+                    <p:column>
+                        <h:outputText id="appendix" value="#{demandsManagedBean.currentEntity.appendix}" title="appendix" />
+                    </p:column>
+                    <p:column><p:outputLabel value="状态码" for="status" /></p:column>
+                    <p:column>
+                        <h:outputText id="status" value="#{demandsManagedBean.currentEntity.status}" title="status" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="负责人工号" for="directorID" /></p:column>
+                    <p:column>
+                        <h:outputText id="directorID" value="#{demandsManagedBean.currentEntity.directorID}" title="directorID" />
+                    </p:column>
+                    <p:column><p:outputLabel value="负责人姓名" for="modulName" /></p:column>
+                    <p:column>
+                        <h:outputText id="directorName" value="#{demandsManagedBean.currentEntity.directorName}" title="directorName" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="预计开始时间" for="planStartDate" /></p:column>
+                    <p:column>
+                        <h:outputText id="planStartDate" value="#{demandsManagedBean.currentEntity.planStartDate}" title="planStartDate">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column><p:outputLabel value="预计结束时间" for="planEndDate" /></p:column>
+                    <p:column>
+                        <h:outputText id="planEndDate" value="#{demandsManagedBean.currentEntity.planEndDate}" title="planEndDate">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </h:outputText>
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column><p:outputLabel value="时间开始时间" for="realStartDate" /></p:column>
+                    <p:column>
+                        <h:outputText id="realStartDate" value="#{demandsManagedBean.currentEntity.realStartDate}" title="realStartDate">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column><p:outputLabel value="实际结束时间" for="realOverDate" /></p:column>
+                    <p:column>
+                        <h:outputText id="realOverDate" value="#{demandsManagedBean.currentEntity.realOverDate}" title="realOverDate">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </h:outputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="服务系统" for="systemName" /></p:column>
+                    <p:column>
+                        <h:outputText id="systemName" value="#{demandsManagedBean.currentEntity.systemName}" title="systemName" />
+                    </p:column>
+                    <p:column><p:outputLabel value="服务模块" for="modulName" /></p:column>
+                    <p:column>
+                        <h:outputText id="modulName" value="#{demandsManagedBean.currentEntity.modulName}" title="modulName" />
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:dataTable id="tableList" value="#{demandsManagedBean.detailList}" var="item" styleClass="tableList Mtop10"
+                         selectionMode="single" selection="#{demandsManagedBean.detailList}" rowKey="#{item.oid}" >
+                <p:ajax event="rowSelect"  update="" oncomplete="" />
+                <p:ajax event="rowUnselect"  update="" oncomplete="" />
+                <f:facet name="header">
+                    其他事项
+                </f:facet>
+                <p:column styleClass="Wid10">
+                    <f:facet name="header">
+                        <h:outputText value="序号"/>
+                    </f:facet>
+                    <h:outputText value="#{item.oid}"/>
+                </p:column>
+                <p:column styleClass="Wid50">
+                    <f:facet name="header">
+                        <h:outputText value="说明"/>
+                    </f:facet>
+                    <h:outputText value="#{item.systemName}"/>
+                </p:column>
+                <p:column styleClass="Wid40">
+                    <f:facet name="header">
+                        <h:outputText value="备注"/>
+                    </f:facet>
+                    <h:outputText value="#{item.systemName}"/>
+                </p:column>
+            </p:dataTable>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+<!--            <p:blockUI id="blockUI" block="formOne" trigger="btnVerify">
+                <p:graphicImage name="images/ajaxloadingbar.gif" library="ultima-layout"/>
+            </p:blockUI>-->
+        </h:form>
+    </ui:define>
+
+</ui:composition>

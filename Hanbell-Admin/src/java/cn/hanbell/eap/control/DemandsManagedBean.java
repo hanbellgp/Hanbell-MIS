@@ -5,14 +5,13 @@
  */
 package cn.hanbell.eap.control;
 
-//import cn.hanbell.eap.ejb.IssuesBean;
-import cn.hanbell.eap.ejb.IssuesBean;
+import cn.hanbell.eap.ejb.DemandsBean;
 import cn.hanbell.eap.entity.CustomerComplaintMaterial;
-import cn.hanbell.eap.entity.Department;
 import cn.hanbell.eap.entity.Demands;
+import cn.hanbell.eap.entity.Department;
 import cn.hanbell.eap.entity.Issues;
 import cn.hanbell.eap.entity.SystemUser;
-import cn.hanbell.eap.lazy.IssuesModel;
+import cn.hanbell.eap.lazy.DemandsModel;
 import cn.hanbell.eap.web.FormSingleBean;
 import com.lightshell.comm.BaseLib;
 import java.io.FileOutputStream;
@@ -24,7 +23,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -40,107 +38,174 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 
 /**
  *
  * @author C1749
  */
-@ManagedBean(name = "issuesManagedBean")
+@ManagedBean(name = "demandsManagedBean")
 @SessionScoped
-public class IssuesManagedBean extends FormSingleBean<Issues> {
-
-    //static final org.apache.logging.log4j.Logger log4j = LogManager.getLogger(IssuesManagedBean.class);
-    Logger log4j = LogManager.getLogger(IssuesManagedBean.class);
+public class DemandsManagedBean extends FormSingleBean<Demands> {
 
     @EJB
-    private IssuesBean issuesBean;
-    private String formid;
+    private DemandsBean demandsBean;
+    //日志
+    Logger log4j = LogManager.getLogger(IssuesManagedBean.class);
+    public String formid;
+    private Date formDate;
     private String status;
-    private String systemType;
-    private String issuestype;
-    private String neederid;
-    private String needername;
-    // private int id;
+    private Date realOverDate;
+    private String demandName;
+    private Integer dataSize;
+    private String demandDeptno;
+    //完成起始时间和终止时间
+    private Date startTime;
+    private Date overTime;
+    
+    private List<Demands> detailList;
 
-    @Override
-    public void reset() {
-        formid = "";
-        status = "";
-        systemType = "";
-        issuestype = "";
-        neederid = "";
-        needername = "";
-        super.reset(); //To change body of generated methods, choose Tools | Templates.
+    
+    public Integer getDataSize() {
+        return dataSize;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getOverTime() {
+        return overTime;
+    }
+
+    public void setOverTime(Date overTime) {
+        this.overTime = overTime;
+    }
+
+    public void setDataSize(Integer dataSize) {
+        this.dataSize = dataSize;
+    }
+
+    
+    public List<Demands> getDetailList() {
+        return detailList;
+    }
+
+    public void setDetailList(List<Demands> detailList) {
+        this.detailList = detailList;
     }
 
     @Override
-    public void persist() {
-        super.persist(); //To change body of generated methods, choose Tools | Templates.
+    public void create() {
+        super.create();
+        newEntity.setFormdate(getDate());
+    }
+
+    @Override
+    protected boolean doAfterPersist() throws Exception {
+        this.detailList.clear();
+        
+        return super.doAfterPersist();
+    }
+
+    public DemandsManagedBean() {
+        super(Demands.class);
+    }
+
+    public DemandsManagedBean(Class<Demands> entityClass) {
+        super(entityClass);
+    }
+
+    @Override
+    public void reset() {
+        formid = null;
+        //realOverDate = new Date();
+        formDate = null;
+        status = "All";
+        demandName = null;
+        demandDeptno = null;
+        realOverDate=null;
+        overTime=null;
+        startTime=null;
+        super.reset();
     }
 
     @Override
     public void init() {
-        formid = "";
-        status = "ALL";
-        systemType = "";
-        issuestype = "";
-        neederid = "";
-        needername = "";
-        this.superEJB = issuesBean;
-        this.newEntity.setFormdate(new Date());
-        model = new IssuesModel(issuesBean);
-        this.newEntity.setSchedule("0");
-        this.currentEntity.setSchedule("0");
-        super.init(); //
+        //数据初始化
+        //formid = null;
+        //realOverDate = new Date();
+        //formDate = null;
+        this.superEJB = demandsBean;
+        this.model = new DemandsModel(demandsBean);
+        super.init();
+        //newEntity.setAppendix("1");
+        //newEntity.setStatus("Y");
+        this.model.getRowCount();
+        newEntity.setFormdate(new Date());
+        newEntity.setWriteDate(new Date());
+        
     }
 
     @Override
     public void query() {
-        if (this.model != null && this.model.getFilterFields() != null) {
+        if (model != null) {
             model.getFilterFields().clear();
-            if (this.formid != null && !"".equals(this.formid)) {
+            if (getFormid() != null && !"".equals(getFormid())) {
+                //System.out.println("formid=" + formid);
                 model.getFilterFields().put("formid", formid);
-            }
-            if (this.status != null && !"".equals(this.status)) {
-                if ("N".equals(this.getStatus()) || "Y".equals(this.getStatus()) || "D".equals(this.status) || "W".equals(this.status) || "Z".equals(this.status)) {
-                    model.getFilterFields().put("status", this.status);
+             }
+            if (getStatus() != null && !"".equals(getStatus())) {
+                //判断这里传过来的是N还是Y
+                if ("Y".equals(getStatus()) || "N".equals(getStatus())) {
+                    model.getFilterFields().put("status", status);
                 }
             }
-            if (this.systemType != null && !"".equals(this.systemType)) {
-                model.getFilterFields().put("systemtype", this.systemType);
+            if (getDemandName() != null && !"".equals(getDemandName())) {
+                model.getFilterFields().put("demandName", demandName);
             }
-            if (this.issuestype != null && !"".equals(this.issuestype)) {
-                if ("表单问题".equals(this.issuestype) || "操作问题".equals(this.issuestype) || "程式问题".equals(this.issuestype)
-                        || "程序问题".equals(this.issuestype) || "设置问题".equals(this.issuestype)
-                        || "系统问题".equals(this.issuestype) || "资料问题".equals(this.issuestype) || "作业问题".equals(this.issuestype) || "其他问题".equals(this.issuestype)) {
-                    model.getFilterFields().put("issuestype", this.issuestype);
-                }
+            if (getDemandDeptno() != null && !"".equals(getDemandDeptno())) {
+                model.getFilterFields().put("demandDeptName", demandDeptno);
             }
-            if (this.neederid != null && !"".equals(this.neederid)) {
-                model.getFilterFields().put("neederid", this.neederid);
+            if (getFormDate() != null && !"".equals(getFormDate())) {
+                model.getFilterFields().put("formdateBegin", formDate);
             }
-            if (this.needername != null && !"".equals(this.needername)) {
-                model.getFilterFields().put("needername", this.needername);
+            if (getRealOverDate() != null && !"".equals(getRealOverDate())) {
+                //System.out.println("formdateEnd" + realOverDate);
+                model.getFilterFields().put("formdateEnd", realOverDate);
             }
+            if(getStartTime()!=null && !"".equals(getStartTime())){
+                model.getFilterFields().put("realOverDateBegin", getStartTime());
+            }
+            if(getOverTime()!=null && !"".equals(getOverTime())){
+                model.getFilterFields().put("realOverDateEnd", getOverTime());
+            }
+//            reset();
+            //this.dataSize=this.model.getRowCount();
         }
-
+        //System.out.print("model"+model);
     }
 
-    public IssuesManagedBean() {
-        super(Issues.class);
+    public void createDetail() {
     }
 
-    public IssuesManagedBean(Class<Demands> entityClass) {
-        super(Issues.class);
+    public void deleteDetail() {
     }
 
-    public IssuesBean getIssuesBean() {
-        return issuesBean;
+    public void doConfirmDetail() {
     }
 
-    public void setIssuesBean(IssuesBean issuesBean) {
-        this.issuesBean = issuesBean;
+    public DemandsBean getDemandsBean() {
+        return demandsBean;
+    }
+
+    public void setDemandsBean(DemandsBean demandsBean) {
+        this.demandsBean = demandsBean;
     }
 
     public String getFormid() {
@@ -159,44 +224,44 @@ public class IssuesManagedBean extends FormSingleBean<Issues> {
         this.status = status;
     }
 
-    public String getSystemType() {
-        return systemType;
+    public Date getFormDate() {
+        return formDate;
     }
 
-    public void setSystemType(String systemType) {
-        this.systemType = systemType;
+    public void setFormDate(Date formDate) {
+        this.formDate = formDate;
     }
 
-    public String getIssuestype() {
-        return issuestype;
+    public Date getRealOverDate() {
+        return realOverDate;
     }
 
-    public void setIssuestype(String issuestype) {
-        this.issuestype = issuestype;
+    public void setRealOverDate(Date realOverDate) {
+        this.realOverDate = realOverDate;
     }
 
-    public String getNeederid() {
-        return neederid;
+    public String getDemandName() {
+        return demandName;
     }
 
-    public void setNeederid(String neederid) {
-        this.neederid = neederid;
+    public void setDemandName(String demandName) {
+        this.demandName = demandName;
     }
 
-    public String getNeedername() {
-        return needername;
+    public String getDemandDeptno() {
+        return demandDeptno;
     }
 
-    public void setNeedername(String needername) {
-        this.needername = needername;
+    public void setDemandDeptno(String demandDeptno) {
+        this.demandDeptno = demandDeptno;
     }
 
     @Override
     public void handleDialogReturnWhenNew(SelectEvent event) {
         if (event.getObject() != null && newEntity != null) {
             Department e = (Department) event.getObject();
-            newEntity.setDeptname(e.getDept());
-            newEntity.setDeptno(e.getDeptno());
+            newEntity.setDemandDeptno(e.getDeptno());
+            newEntity.setDemandDeptName(e.getDept());
         }
     }
 
@@ -204,8 +269,8 @@ public class IssuesManagedBean extends FormSingleBean<Issues> {
     public void handleDialogReturnWhenEdit(SelectEvent event) {
         if (event.getObject() != null && currentEntity != null) {
             Department e = (Department) event.getObject();
-            currentEntity.setDeptname(e.getDept());
-            currentEntity.setDeptno(e.getDeptno());
+            currentEntity.setDemandDeptno(e.getDeptno());
+            currentEntity.setDemandDeptName(e.getDept());
         }
     }
     //需求者
@@ -214,8 +279,8 @@ public class IssuesManagedBean extends FormSingleBean<Issues> {
         if (event.getObject() != null && newEntity != null) {
             Object o = event.getObject();
             SystemUser user = (SystemUser) o;
-            newEntity.setNeedername(user.getUsername());
-            newEntity.setNeederid(user.getUserid());
+            newEntity.setDemandNameID(user.getUserid());
+            newEntity.setDemandName(user.getUsername());
         }
     }
 
@@ -223,8 +288,8 @@ public class IssuesManagedBean extends FormSingleBean<Issues> {
         if (event.getObject() != null && newEntity != null) {
             Object o = event.getObject();
             SystemUser user = (SystemUser) o;
-            currentEntity.setNeedername(user.getUsername());
-            currentEntity.setNeederid(user.getUserid());
+            currentEntity.setDemandNameID(user.getUserid());
+            currentEntity.setDemandName(user.getUsername());
         }
     }
     //负责人
@@ -233,8 +298,8 @@ public class IssuesManagedBean extends FormSingleBean<Issues> {
         if (event.getObject() != null && newEntity != null) {
             Object o = event.getObject();
             SystemUser user = (SystemUser) o;
-            newEntity.setPrincipalname(user.getUsername());
-            newEntity.setPrincipalid(user.getUserid());
+            newEntity.setDirectorID(user.getUserid());
+            newEntity.setDirectorName(user.getUsername());
         }
     }
 
@@ -242,52 +307,41 @@ public class IssuesManagedBean extends FormSingleBean<Issues> {
         if (event.getObject() != null && newEntity != null) {
             Object o = event.getObject();
             SystemUser user = (SystemUser) o;
-            currentEntity.setPrincipalname(user.getUsername());
-            currentEntity.setPrincipalid(user.getUserid());
+            currentEntity.setDirectorID(user.getUserid());
+            currentEntity.setDirectorName(user.getUsername());
         }
     }
 
-//    //填报人
-//    public void handleDialogReturnUserWhenWriteNameNew(SelectEvent event) {
-//        if (event.getObject() != null && newEntity != null) {
-//            Object o = event.getObject();
-//            SystemUser user = (SystemUser) o;
-//            newEntity.setWriterName(user.getUsername());
-//            newEntity.setWriterID(user.getUserid());
-//        }
-//    }
-//
-//    public void handleDialogReturnUserWhenWriteNameEdit(SelectEvent event) {
-//        if (event.getObject() != null && newEntity != null) {
-//            Object o = event.getObject();
-//            SystemUser user = (SystemUser) o;
-//            currentEntity.setWriterName(user.getUsername());
-//            currentEntity.setWriterID(user.getUserid());
-//        }
-//    }
-//    @Override
-//    protected boolean doBeforePersist() throws Exception {
-//        if (this.newEntity != null && this.getCurrentPrgGrant() != null) {
-//            //id++;
-//            this.newEntity.setFormdate(new Date());
-//            //this.newEntity.setFormid("12341231212");
-//            //this.newEntity.setIssuestype("表单问题");
-//            this.newEntity.getAnswer();
-//            return true;
-//        }
-//        return false;
-//    }
+    //填报人
+    public void handleDialogReturnUserWhenWriteNameNew(SelectEvent event) {
+        if (event.getObject() != null && newEntity != null) {
+            Object o = event.getObject();
+            SystemUser user = (SystemUser) o;
+            newEntity.setWriterName(user.getUsername());
+            newEntity.setWriterID(user.getUserid());
+        }
+    }
 
+    public void handleDialogReturnUserWhenWriteNameEdit(SelectEvent event) {
+        if (event.getObject() != null && newEntity != null) {
+            Object o = event.getObject();
+            SystemUser user = (SystemUser) o;
+            currentEntity.setWriterName(user.getUsername());
+            currentEntity.setWriterID(user.getUserid());
+        }
+    }
+
+    //打印
     @Override
     public void print() {
 
-        entityList = issuesBean.findByFilters(model.getFilterFields(), model.getSortFields());
+        entityList = demandsBean.findByFilters(model.getFilterFields(), model.getSortFields());
         if (entityList == null || entityList.isEmpty()) {
 
             return;
         }
 
-        fileName = "问题报告清单" + BaseLib.formatDate("yyyyMMddHHmmss", BaseLib.getDate()) + ".xls";
+        fileName = "需求优化清单" + BaseLib.formatDate("yyyyMMddHHmmss", BaseLib.getDate()) + ".xls";
         String fileFullName = reportOutputPath + fileName;
         HSSFWorkbook workbook = new HSSFWorkbook();
         //获得表格样式
@@ -313,106 +367,82 @@ public class IssuesManagedBean extends FormSingleBean<Issues> {
         List<CustomerComplaintMaterial> plaintMaterialLis = new ArrayList<>();
         Field[] f = Issues.class.getDeclaredFields();
         int j = 1;
-        for (Issues cp : entityList) {
+        for (Demands cp : entityList) {
             row = sheet1.createRow(j);
             j++;
             row.setHeight((short) 400);
             Cell cell0 = row.createCell(0);
             cell0.setCellStyle(style.get("cell"));
-            cell0.setCellValue(cp.getFormid()!=null ? cp.getFormid() : "");
+            cell0.setCellValue(cp.getFormid() != null ? cp.getFormid() : "");
 
             Cell cell1 = row.createCell(1);
             cell1.setCellStyle(style.get("cell"));
-            cell1.setCellValue(cp.getSystemtype()!=null ? cp.getSystemtype() : "");
+            //cell1.setCellValue(cp.getFormdate()!=null ? cp.getFormdate() : "");
+            cell1.setCellValue(cp.getFormdate() != null ? BaseLib.formatDate("yyyy-MM-dd", cp.getFormdate()) : "");
 
             Cell cell2 = row.createCell(2);
             cell2.setCellStyle(style.get("cell"));
-            cell2.setCellValue(cp.getModuletype()!=null ? cp.getModuletype() : "");
+            cell2.setCellValue(cp.getSystemName() != null ? cp.getSystemName() : "");
 
             Cell cell3 = row.createCell(3);
             cell3.setCellStyle(style.get("cell"));
-            cell3.setCellValue(cp.getIssuestype()!=null ? cp.getIssuestype() : "");
-            
+            cell3.setCellValue(cp.getModulName() != null ? cp.getModulName() : "");
+
             Cell cell4 = row.createCell(4);
             cell4.setCellStyle(style.get("cell"));
-            cell4.setCellValue(cp.getIssuesContent()!=null ? cp.getIssuesContent() : "");
+            cell4.setCellValue(cp.getDemandsResume() != null ? cp.getDemandsResume() : "");
 
             Cell cell5 = row.createCell(5);
             cell5.setCellStyle(style.get("cell"));
-            cell5.setCellValue(cp.getIssuesname()!=null ? cp.getIssuesname() : "");
+            cell5.setCellValue(cp.getDemandContent() != null ? cp.getDemandContent() : "");
 
             Cell cell6 = row.createCell(6);
             cell6.setCellStyle(style.get("cell"));
-            cell6.setCellValue(cp.getDeptno()!=null ? cp.getDeptno() : "");
+            cell6.setCellValue(cp.getAppendix() != null ? cp.getAppendix() : "");
 
             Cell cell7 = row.createCell(7);
             cell7.setCellStyle(style.get("cell"));
-            cell7.setCellValue(cp.getDeptname()!=null ? cp.getDeptname() : "");
-            
-             Cell cell8 = row.createCell(8);
+            cell7.setCellValue(cp.getDemandDeptno() != null ? cp.getDemandDeptno() : "");
+
+            Cell cell8 = row.createCell(8);
             cell8.setCellStyle(style.get("cell"));
-            cell8.setCellValue(cp.getNeederid()!=null ? cp.getNeederid() : "");
-            
+            cell8.setCellValue(cp.getDemandDeptName() != null ? cp.getDemandDeptName() : "");
+
             Cell cell9 = row.createCell(9);
             cell9.setCellStyle(style.get("cell"));
-            cell9.setCellValue(cp.getNeedername()!=null ? cp.getNeedername() : "");
+            cell9.setCellValue(cp.getDemandNameID() != null ? cp.getDemandNameID() : "");
 
             Cell cell10 = row.createCell(10);
             cell10.setCellStyle(style.get("cell"));
-            cell10.setCellValue(cp.getFormdate()!=null ? BaseLib.formatDate("yyyy-MM-dd",cp.getFormdate()) : "");
+            cell10.setCellValue(cp.getDemandName() != null ? cp.getDemandName() : "");
 
             Cell cell11 = row.createCell(11);
             cell11.setCellStyle(style.get("cell"));
-            cell11.setCellValue(cp.getStarttime()!=null ? BaseLib.formatDate("yyyy-MM-dd",cp.getStarttime()) : "");
+            cell11.setCellValue(cp.getDirectorID() != null ? cp.getDirectorID() : "");
 
             Cell cell12 = row.createCell(12);
             cell12.setCellStyle(style.get("cell"));
-            cell12.setCellValue(cp.getOvertime()!=null ? BaseLib.formatDate("yyyy-MM-dd",cp.getOvertime()) : "");
+            cell12.setCellValue(cp.getDirectorName() != null ? cp.getDirectorName() : "");
 
             Cell cell13 = row.createCell(13);
             cell13.setCellStyle(style.get("cell"));
-            cell13.setCellValue(cp.getPrincipalid()!=null ? cp.getPrincipalid() : "");
+            cell13.setCellValue(cp.getStatus() != null ? cp.getStatus() : "");
 
             Cell cell14 = row.createCell(14);
             cell14.setCellStyle(style.get("cell"));
-            cell14.setCellValue(cp.getPrincipalname()!=null ? cp.getPrincipalname() : "");
+            cell14.setCellValue(cp.getRealStartDate() != null ? BaseLib.formatDate("yyyy-MM-dd", cp.getRealStartDate()) : "");
 
             Cell cell15 = row.createCell(15);
             cell15.setCellStyle(style.get("cell"));
-            cell15.setCellValue(cp.getSchedule()!=null ? cp.getSchedule()+"%" : "");
+            cell15.setCellValue(cp.getRealOverDate() != null ? BaseLib.formatDate("yyyy-MM-dd", cp.getRealOverDate()) : "");
 
             Cell cell16 = row.createCell(16);
             cell16.setCellStyle(style.get("cell"));
-            cell16.setCellValue(cp.getUsetime()!=null ? cp.getUsetime() : "");
-            
-            char a='N';
+            cell16.setCellValue(cp.getPlanStartDate() != null ? BaseLib.formatDate("yyyy-MM-dd", cp.getPlanStartDate()) : "");
+
             Cell cell17 = row.createCell(17);
             cell17.setCellStyle(style.get("cell"));
-            cell17.setCellValue(cp.getPostpone()!=null ? cp.getPostpone() : a);
-
-            Cell cell18 = row.createCell(18);
-            cell18.setCellStyle(style.get("cell"));
-            cell18.setCellValue(cp.getPostponecause()!=null ? cp.getPostponecause() : "");
-
-            Cell cell19 = row.createCell(19);
-            cell19.setCellStyle(style.get("cell"));
-            cell19.setCellValue(cp.getAnswer()!=null ? cp.getAnswer() : "");
-
-            Cell cell20 = row.createCell(20);
-            cell20.setCellStyle(style.get("cell"));
-            cell20.setCellValue(cp.getAnswerstate()!=null ? cp.getAnswerstate() : "");
-
-            Cell cell21 = row.createCell(21);
-            cell21.setCellStyle(style.get("cell"));
-            cell21.setCellValue(cp.getFile()!=null ? cp.getFile() : "");
-
-            Cell cell22 = row.createCell(22);
-            cell22.setCellStyle(style.get("cell"));
-            cell22.setCellValue(cp.getStatus()!=null ? cp.getStatus() : "");
-
-            Cell cell23 = row.createCell(23);
-            cell23.setCellStyle(style.get("cell"));
-            cell23.setCellValue(cp.getCreator()!=null ? cp.getCreator() : "");
+            cell17.setCellValue(cp.getPlanEndDate() != null ? BaseLib.formatDate("yyyy-MM-dd", cp.getRealOverDate()) : "");
 
         }
         OutputStream os = null;
@@ -481,12 +511,13 @@ public class IssuesManagedBean extends FormSingleBean<Issues> {
     }
 
     private int[] getCustomerComplaintWidth() {
-        return new int[]{20,8, 15,12,52, 50, 15, 14, 14, 14, 14, 14, 14, 14, 15, 20};
+        return new int[]{20, 13, 8, 7, 10, 50, 8, 14, 18, 14, 14, 14, 14, 14, 15, 20,13,13};
     }
 
     public String[] getCustomerComplaintTitle() {
-        return new String[]{"单号", "系统类型", "系统模块","问题类型","问题简述", "问题描述", "需求部门编号", "需求部门", "需求者工号", "需求者名称", "提交时间", "开始时间", "结束时间", "负责人工号", "负责人姓名", "完成情况", "使用时间","是否延迟","延迟原因","回复","回复时间","附件","状态码","创建者"};
+        return new String[]{"单号", "登记时间", "系统类型", "系统模块", "问题简述", "问题描述","附件", "需求部门编号", "需求部门", "需求者工号", "需求者名称", "负责人工号", "负责人姓名", "状态码","实际开始时间", "实际完成时间", "计划开始时间", "计划完成时间"};
     }
+    
      @Override
     public void verify() {
         if (null != getCurrentEntity()) {

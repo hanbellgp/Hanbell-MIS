@@ -6,13 +6,13 @@
 
     <ui:define name="content">
         <h:form id="formOne">
-            <p:growl id="growl" showSummary= "false"></p:growl>
+            <p:growl id="growl"  showSummary="false" showDetail="true" />
             <p:toolbar id="toolbar" styleClass="topToolbar">
                 <f:facet name="left">
                     <p:button id="btnReturn" value="返回" outcome="issues" icon="ui-icon-restore"/>
                 </f:facet>
                 <f:facet name="right">
-                    <p:commandButton id="btnPersist" value="保存" action="#{issuesManagedBean.persist()}" icon="ui-icon-save" update="plgHead"/>
+                    <p:commandButton id="btnPersist" value="保存" action="#{issuesManagedBean.persist()}" icon="ui-icon-save" update=":formOne"/>
                 </f:facet>
             </p:toolbar>
             <p:panelGrid id="plgHead"  styleClass="plgHead Wid100">
@@ -32,14 +32,23 @@
                     </p:column>
                 </p:row>
                 <p:row>
-                    <p:column styleClass="Wid20"><p:outputLabel value="问题描述" for="issuesid" /></p:column>
+                    <p:column styleClass="Wid20"><p:outputLabel value="问题描述" for="issuesContent" /></p:column>
                     <p:column styleClass="Wid30">
-                        <p:inputText id="issuesid" value="#{issuesManagedBean.newEntity.issuesid}" title="Issuesid" required="true" requiredMessage="请输入需求简称"/>
+                        <p:inputText id="issuesContent" value="#{issuesManagedBean.newEntity.issuesContent}" title="issuesContent" required="true" requiredMessage="请输入需求简称"/>
                     </p:column>
-                    <p:column styleClass="Wid20"><p:outputLabel value="提出时间" for="createtime" /></p:column>
-                    <p:column styleClass="Wid30">
-                        <p:calendar id="createtime" value="#{issuesManagedBean.newEntity.createtime}" title="Createtime"
-                                    pattern="yyyy/MM/dd" required="true" requiredMessage="提出时间"/>
+                    <p:column styleClass="Wid20"><p:outputLabel value="问题类型" for="issuestype" /></p:column>
+                    <p:column>
+                        <p:selectOneMenu id="issuestype" value="#{issuesManagedBean.newEntity.issuestype}" style="width:60%">
+                            <f:selectItem itemLabel="表单问题" itemValue="表单问题" />
+                            <f:selectItem itemLabel="操作问题" itemValue="操作问题" />
+                            <f:selectItem itemLabel="程式问题" itemValue="程式问题" />
+                            <f:selectItem itemLabel="程序问题" itemValue="程序问题" />
+                            <f:selectItem itemLabel="设置问题" itemValue="设置问题" />
+                            <f:selectItem itemLabel="系统问题" itemValue="系统问题" />
+                            <f:selectItem itemLabel="资料问题" itemValue="资料问题" />
+                            <f:selectItem itemLabel="作业问题" itemValue="作业问题" />
+                            <f:selectItem itemLabel="其他问题" itemValue="其他问题" />
+                        </p:selectOneMenu>
                     </p:column>
                 </p:row>
                 <p:row>
@@ -55,7 +64,7 @@
                     </p:column>
                     <p:column styleClass="Wid20"><p:outputLabel value="部门名称" for="deptname" /></p:column>
                     <p:column styleClass="Wid30">
-                        <p:inputText id="deptname" value="#{issuesManagedBean.newEntity.deptname}" title="DeptName"/>
+                        <h:outputText id="deptname" value="#{issuesManagedBean.newEntity.deptname}" title="DeptName"/>
                     </p:column>
                 </p:row>
                 <p:row>
@@ -71,33 +80,34 @@
                     </p:column>
                     <p:column styleClass="Wid20"><p:outputLabel value="需求人姓名" for="needername" /></p:column>
                     <p:column styleClass="Wid30">
-                        <p:inputText id="needername" value="#{issuesManagedBean.newEntity.needername}" title="Needername" required="true" requiredMessage="请输入需求人"/>
+                        <h:outputText id="needername" value="#{issuesManagedBean.newEntity.needername}" title="Needername"/>
                     </p:column>
                 </p:row>
                 <p:row>
-                    <p:column styleClass="Wid20"><p:outputLabel value="负责人代号" for="principalid" /></p:column>
+                    <p:column styleClass="Wid20"><p:outputLabel value="需求人代号" for="principalid" /></p:column>
                     <p:column styleClass="Wid30">
-                        <p:inputText id="principalid" value="#{issuesManagedBean.newEntity.principalid}" title="Principalid" styleClass="inputWithButton"/>
+                        <p:inputText id="principalid" value="#{issuesManagedBean.newEntity.principalid}" title="principalid" styleClass="inputWithButton"
+                                     required="true" requiredMessage="请输入需求需求人员"/>
                         <p:commandButton id="btnSystemPrincipalSelect" actionListener="#{issuesManagedBean.openDialog('sysuserSelect')}" icon="ui-icon-extlink"
                                          process="@this" >
                             <p:ajax event="dialogReturn" listener="#{issuesManagedBean.handleDialogReturnUserWhenDetailprincipalNew}"
                                     process="@this" update="principalid,principalname" />
                         </p:commandButton>
                     </p:column>
-                    <p:column styleClass="Wid20"><p:outputLabel value="负责人姓名" for="principalname" /></p:column>
+                    <p:column styleClass="Wid20"><p:outputLabel value="需求人姓名" for="principalname" /></p:column>
                     <p:column styleClass="Wid30">
-                        <p:inputText id="principalname" value="#{issuesManagedBean.newEntity.principalname}" title="Principalname"/>
+                        <h:outputText id="principalname" value="#{issuesManagedBean.newEntity.principalname}" title="principalname"/>
                     </p:column>
                 </p:row>
                 <p:row>
-                    <p:column styleClass="Wid20"><p:outputLabel value="计划完成时间" for="plantime" /></p:column>
+                    <p:column styleClass="Wid20"><p:outputLabel value="计划完成时间" for="starttime" /></p:column>
                     <p:column styleClass="Wid30">
-                        <p:calendar id="plantime" value="#{issuesManagedBean.newEntity.plantime}" title="Plantime"
+                        <p:calendar id="starttime" value="#{issuesManagedBean.newEntity.starttime}" title="starttime"
                                     pattern="yyyy/MM/dd" requiredMessage="请输入计划完成时间"/>
                     </p:column>
-                    <p:column styleClass="Wid20"><p:outputLabel value="实际完成时间" for="endtime" /></p:column>
+                    <p:column styleClass="Wid20"><p:outputLabel value="实际完成时间" for="overtime" /></p:column>
                     <p:column styleClass="Wid30">
-                        <p:calendar id="endtime" value="#{issuesManagedBean.newEntity.endtime}" title="Endtime"
+                        <p:calendar id="overtime" value="#{issuesManagedBean.newEntity.overtime}" title="overtime"
                                     pattern="yyyy/MM/dd" requiredMessage="请输入实际完成时间"/>
                     </p:column>
                 </p:row>
