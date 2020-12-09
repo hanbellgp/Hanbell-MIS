@@ -38,7 +38,6 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -260,8 +259,8 @@ public class DemandsManagedBean extends FormSingleBean<Demands> {
     public void handleDialogReturnWhenNew(SelectEvent event) {
         if (event.getObject() != null && newEntity != null) {
             Department e = (Department) event.getObject();
-            newEntity.setDemandDeptno(e.getDeptno());
-            newEntity.setDemandDeptName(e.getDept());
+            newEntity.setDemanderDeptID(e.getDeptno());
+            newEntity.setDemanderDeptName(e.getDept());
         }
     }
 
@@ -269,8 +268,8 @@ public class DemandsManagedBean extends FormSingleBean<Demands> {
     public void handleDialogReturnWhenEdit(SelectEvent event) {
         if (event.getObject() != null && currentEntity != null) {
             Department e = (Department) event.getObject();
-            currentEntity.setDemandDeptno(e.getDeptno());
-            currentEntity.setDemandDeptName(e.getDept());
+            currentEntity.setDemanderDeptID(e.getDeptno());
+            currentEntity.setDemanderDeptName(e.getDept());
         }
     }
     //需求者
@@ -279,8 +278,8 @@ public class DemandsManagedBean extends FormSingleBean<Demands> {
         if (event.getObject() != null && newEntity != null) {
             Object o = event.getObject();
             SystemUser user = (SystemUser) o;
-            newEntity.setDemandNameID(user.getUserid());
-            newEntity.setDemandName(user.getUsername());
+            newEntity.setDemanderID(user.getUserid());
+            newEntity.setDemanderName(user.getUsername());
         }
     }
 
@@ -288,8 +287,8 @@ public class DemandsManagedBean extends FormSingleBean<Demands> {
         if (event.getObject() != null && newEntity != null) {
             Object o = event.getObject();
             SystemUser user = (SystemUser) o;
-            currentEntity.setDemandNameID(user.getUserid());
-            currentEntity.setDemandName(user.getUsername());
+            currentEntity.setDemanderID(user.getUserid());
+            currentEntity.setDemanderName(user.getUsername());
         }
     }
     //负责人
@@ -386,11 +385,11 @@ public class DemandsManagedBean extends FormSingleBean<Demands> {
 
             Cell cell3 = row.createCell(3);
             cell3.setCellStyle(style.get("cell"));
-            cell3.setCellValue(cp.getModulName() != null ? cp.getModulName() : "");
+            cell3.setCellValue(cp.getModuleName() != null ? cp.getModuleName() : "");
 
             Cell cell4 = row.createCell(4);
             cell4.setCellStyle(style.get("cell"));
-            cell4.setCellValue(cp.getDemandsResume() != null ? cp.getDemandsResume() : "");
+            cell4.setCellValue(cp.getDemandResume() != null ? cp.getDemandResume() : "");
 
             Cell cell5 = row.createCell(5);
             cell5.setCellStyle(style.get("cell"));
@@ -402,19 +401,19 @@ public class DemandsManagedBean extends FormSingleBean<Demands> {
 
             Cell cell7 = row.createCell(7);
             cell7.setCellStyle(style.get("cell"));
-            cell7.setCellValue(cp.getDemandDeptno() != null ? cp.getDemandDeptno() : "");
+            cell7.setCellValue(cp.getDemanderDeptID() != null ? cp.getDemanderDeptID() : "");
 
             Cell cell8 = row.createCell(8);
             cell8.setCellStyle(style.get("cell"));
-            cell8.setCellValue(cp.getDemandDeptName() != null ? cp.getDemandDeptName() : "");
+            cell8.setCellValue(cp.getDemanderDeptName() != null ? cp.getDemanderDeptName() : "");
 
             Cell cell9 = row.createCell(9);
             cell9.setCellStyle(style.get("cell"));
-            cell9.setCellValue(cp.getDemandNameID() != null ? cp.getDemandNameID() : "");
+            cell9.setCellValue(cp.getDemanderID() != null ? cp.getDemanderID() : "");
 
             Cell cell10 = row.createCell(10);
             cell10.setCellStyle(style.get("cell"));
-            cell10.setCellValue(cp.getDemandName() != null ? cp.getDemandName() : "");
+            cell10.setCellValue(cp.getDemanderName() != null ? cp.getDemanderName() : "");
 
             Cell cell11 = row.createCell(11);
             cell11.setCellStyle(style.get("cell"));
@@ -442,7 +441,7 @@ public class DemandsManagedBean extends FormSingleBean<Demands> {
 
             Cell cell17 = row.createCell(17);
             cell17.setCellStyle(style.get("cell"));
-            cell17.setCellValue(cp.getPlanEndDate() != null ? BaseLib.formatDate("yyyy-MM-dd", cp.getRealOverDate()) : "");
+            cell17.setCellValue(cp.getPlanOverDate() != null ? BaseLib.formatDate("yyyy-MM-dd", cp.getRealOverDate()) : "");
 
         }
         OutputStream os = null;
