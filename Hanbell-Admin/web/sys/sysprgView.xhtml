@@ -9,7 +9,7 @@
     <ui:define name="content">
 
         <h:form id="formOne">
-            <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />
+            <p:growl id="growl"  showSummary="false" showDetail="true"/>
             <p:toolbar id="toolbar" styleClass="topToolbar">
                 <f:facet name="left">
                     <p:button id="btnReturn" value="返回" outcome="sysprg" icon="ui-icon-restore"/>
@@ -20,7 +20,7 @@
                 </f:facet>
                 <f:facet name="right">
                     <p:commandButton id="btnVerify" value="审核" action="#{systemProgramManagedBean.verify()}" icon="ui-icon-check"
-                                     rendered="#{systemProgramManagedBean.currentEntity.status!='V'}" update="toolbar"/>
+                                     rendered="#{systemProgramManagedBean.currentEntity.status!='V'}" update="growl,toolbar"/>
                 </f:facet>
             </p:toolbar>
             <p:panelGrid id="plgHead" columns="2" columnClasses="Wid20,Wid80" styleClass="plgHead Wid100">
